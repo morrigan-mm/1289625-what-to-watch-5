@@ -10,20 +10,21 @@ module.exports = {
         contentBase: path.resolve(__dirname, 'public'),
         open: false,
         port: 1337,
+        historyApiFallback: true
     },
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                },
+              test: /\.(js|jsx)$/,
+              exclude: /node_modules/,
+              use: {
+                loader: 'babel-loader'
+              }
             }
         ],
     },
     resolve: {
         extensions: ['.js', '.jsx']
     },
-    devtool: 'source-map',
+    devtool: 'source-map'
 };
