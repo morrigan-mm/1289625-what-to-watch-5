@@ -1,32 +1,55 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
-import Main from "../main/main";
-import SignIn from "../sign-in/sign-in";
-import AddReview from "../add-review/add-review";
+import PageMain from "../page-main/page-main";
+import PageSignIn from "../page-sign-in/page-sign-in";
+import PageAddReview from "../page-add-review/page-add-review";
+import PageMovie from "../page-movie/page-movie";
+import PageMyList from "../page-my-list/page-my-list";
 import Player from "../player/player";
-import Film from "../film/film";
-import MyList from "../my-list/my-list";
 
-const App = ({title, genre, releaseDate}) => {
+const filterMyFilms = (filmList) => filmList.filter((film) => film.addedToMyList);
+
+const App = ({promo, films}) => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Main title={title} genre={genre} releaseDate={releaseDate} />
+          <PageMain
+            promo={promo}
+            films={films}
+          />
         </Route>
         <Route exact path="/login">
-          <SignIn />
+          <PageSignIn />
         </Route>
         <Route exact path="/mylist">
-          <MyList />
+          <PageMyList
+            films={filterMyFilms(films)}
+          />
         </Route>
-        <Route exact path="/films/:id">
-          <Film />
-        </Route>
-        <Route exact path="/films/:id/review">
-          <AddReview />
-        </Route>
+        <Route exact
+          path="/films/:id"
+          render={({match}) => {
+            const film = films.find(({id}) => id === match.params.id);
+            return (
+              <PageMovie
+                films={films}
+                film={film}
+              />
+            );
+          }}
+        />
+        <Route exact
+          path="/films/:id/review"
+          render={({match}) => {
+            const film = films.find(({id}) => id === match.params.id);
+            return (
+              <PageAddReview
+                film={film}
+              />
+            );
+          }}/>
         <Route exact path="/player/:id">
           <Player />
         </Route>
@@ -36,9 +59,8 @@ const App = ({title, genre, releaseDate}) => {
 };
 
 App.propTypes = {
-  title: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
-  releaseDate: PropTypes.string.isRequired
+  promo: PropTypes.object.isRequired,
+  films: PropTypes.array.isRequired
 };
 
 export default App;
