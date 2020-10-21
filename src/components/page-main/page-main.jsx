@@ -4,6 +4,7 @@ import MovieList from "../movie-list/movie-list";
 import Footer from "../footer/footer";
 import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
+import {filmShape} from "../../prop-types";
 
 const PageMain = (props) => {
   const {promo, films} = props;
@@ -105,12 +106,8 @@ const PageMain = (props) => {
 };
 
 PageMain.propTypes = {
-  promo: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    releaseDate: PropTypes.string.isRequired
-  }),
-  films: PropTypes.array.isRequired
+  promo: filmShape.isRequired,
+  films: PropTypes.arrayOf(filmShape).isRequired
 };
 
 export default PageMain;

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
+import {breadcrumbShape} from "../../prop-types";
 
 const Breadcrumbs = ({breadcrumbs}) => {
 
@@ -8,12 +9,12 @@ const Breadcrumbs = ({breadcrumbs}) => {
     <nav className="breadcrumbs">
       <ul className="breadcrumbs__list">
         {breadcrumbs
-          .map((breadcrumb, i) => (
-            <li key={i} className="breadcrumbs__item">
+          .map((breadcrumb) => (
+            <li key={breadcrumb.text} className="breadcrumbs__item">
               {breadcrumb.link ? (
                 <Link to={breadcrumb.link} className="breadcrumbs__link">{breadcrumb.text}</Link>
               ) : (
-                <a className="breadcrumbs__link">{breadcrumb.text}</a>
+                <span className="breadcrumbs__link">{breadcrumb.text}</span>
               )}
             </li>
           ))
@@ -24,7 +25,7 @@ const Breadcrumbs = ({breadcrumbs}) => {
 };
 
 Breadcrumbs.propTypes = {
-  breadcrumbs: PropTypes.array.isRequired
+  breadcrumbs: PropTypes.arrayOf(breadcrumbShape).isRequired
 };
 
 export default Breadcrumbs;

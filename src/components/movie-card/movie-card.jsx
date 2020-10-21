@@ -1,6 +1,7 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
+import {filmShape} from "../../prop-types";
 
 class MovieCard extends PureComponent {
   constructor(props) {
@@ -37,12 +38,7 @@ class MovieCard extends PureComponent {
 MovieCard.propTypes = {
   onCardActiveChange: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
-  film: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    cover: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    preview: PropTypes.string.isRequired
-  })
+  film: filmShape.isRequired
 };
 
 export default MovieCard;

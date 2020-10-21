@@ -5,11 +5,12 @@ import MovieList from "../movie-list/movie-list";
 import Footer from "../footer/footer";
 import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
+import {filmShape} from "../../prop-types";
 
 const MAX_SIMILAR_MOVIES_COUNT = 4;
 
 const generateRatingDetails = (rating) => {
-  const [integer] = rating.split(`,`);
+  const integer = Number(rating.split(`,`)[0]);
 
   if (integer < 3) {
     return `Very Bad`;
@@ -149,19 +150,8 @@ class PageMovie extends PureComponent {
 }
 
 PageMovie.propTypes = {
-  films: PropTypes.array.isRequired,
-  film: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    releaseDate: PropTypes.string.isRequired,
-    poster: PropTypes.string.isRequired,
-    rating: PropTypes.string.isRequired,
-    ratingCount: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
-    director: PropTypes.string.isRequired,
-    actors: PropTypes.array.isRequired
-  })
+  films: PropTypes.arrayOf(filmShape).isRequired,
+  film: filmShape.isRequired
 };
 
 export default PageMovie;

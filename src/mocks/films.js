@@ -1,5 +1,3 @@
-import {nanoid} from "nanoid";
-
 const getRandomInteger = (min = 0, max = 1) => {
   const lower = Math.ceil(Math.min(min, max));
   const upper = Math.floor(Math.max(min, max));
@@ -32,22 +30,30 @@ const Reviews = [
   `The mannered, madcap proceedings are often delightful, occasionally silly, and here and there, gruesome and/or heartbreaking.`
 ];
 
+const FilmIds = [`cVuqZSZCysDHc_5qM9dEx`, `AIzgefMlfaHJyg_vOnc-f`, `GUFUG7cU21RzkvDo5Hcru`, `hB4EQhyVs-AJ4DY3aj5nj`, `H_jRqxXf-odFFgWVt0RX7`, `p-0RWpr_Yd2VksL88s89Z`, `mLFkNk1uItVQMoUxIo9Nb`, `csYYyqC7wu4l-9H6D4VJn`];
+
 const generateReview = () => {
   return {
     text: Reviews[getRandomInteger(0, Reviews.length - 1)],
     rating: `7`,
     author: `John Doe`,
-    reviewDate: new Date()
+    reviewDate: new Date().toDateString()
   };
 };
 
-const generateFilmCard = () => {
+const generateFilmCard = (i) => {
+  const id = FilmIds[i];
+
+  if (!id) {
+    throw new Error(`Some problem with id in film`);
+  }
+
   return {
-    id: nanoid(),
+    id,
     poster: `/img/the-grand-budapest-hotel-poster.jpg`,
     preview: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`,
     cover: `/img/${Covers[getRandomInteger(0, Covers.length - 1)]}.jpg`,
-    title: Titles[getRandomInteger(0, Titles.length - 1)],
+    title: Titles[i],
     genre: Genres[getRandomInteger(0, Genres.length - 1)],
     releaseDate: `2017`,
     description: Descriptions[getRandomInteger(0, Descriptions.length - 1)],
@@ -61,5 +67,5 @@ const generateFilmCard = () => {
   };
 };
 
-export const films = new Array(8).fill().map(generateFilmCard);
-export const promo = generateFilmCard();
+export const films = new Array(8).fill().map((film, i) => generateFilmCard(i));
+export const promo = films[2];

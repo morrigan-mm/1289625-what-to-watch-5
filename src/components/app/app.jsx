@@ -7,6 +7,7 @@ import PageAddReview from "../page-add-review/page-add-review";
 import PageMovie from "../page-movie/page-movie";
 import PageMyList from "../page-my-list/page-my-list";
 import Player from "../player/player";
+import {filmShape} from "../../prop-types";
 
 const filterMyFilms = (filmList) => filmList.filter((film) => film.addedToMyList);
 
@@ -59,8 +60,8 @@ const App = ({promo, films}) => {
 };
 
 App.propTypes = {
-  promo: PropTypes.object.isRequired,
-  films: PropTypes.array.isRequired
+  promo: filmShape.isRequired,
+  films: PropTypes.arrayOf(filmShape).isRequired
 };
 
 export default App;

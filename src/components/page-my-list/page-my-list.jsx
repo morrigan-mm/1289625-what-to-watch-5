@@ -5,6 +5,7 @@ import Footer from "../footer/footer";
 import Header from "../header/header";
 import HeaderPageTitle from "../header-page-title/header-page-title";
 import HeaderUserBlock from "../header-user-block/header-user-block";
+import {filmShape} from "../../prop-types";
 
 const PageMyList = ({films}) => {
   return (
@@ -27,7 +28,7 @@ const PageMyList = ({films}) => {
 };
 
 PageMyList.propTypes = {
-  films: PropTypes.array.isRequired
+  films: PropTypes.arrayOf(filmShape).isRequired
 };
 
 export default PageMyList;
