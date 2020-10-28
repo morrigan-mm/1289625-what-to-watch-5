@@ -6,32 +6,17 @@ import {filmShape} from "../../prop-types";
 class MovieList extends PureComponent {
   constructor(props) {
     super(props);
-
-    this.state = {
-      activeFilmId: null
-    };
-
-    this.handleCardActiveChange = this.handleCardActiveChange.bind(this);
-  }
-
-  handleCardActiveChange(filmId, active) {
-    this.setState({
-      activeFilmId: active ? filmId : null
-    });
   }
 
   render() {
     const {films} = this.props;
-    const {activeFilmId} = this.state;
 
     return (
       <div className="catalog__movies-list">
         {films.map((film) => (
           <MovieCard
             key={film.id}
-            film={film}
-            isActive={activeFilmId === film.id}
-            onCardActiveChange={this.handleCardActiveChange} />
+            film={film} />
         ))}
       </div>
     );
