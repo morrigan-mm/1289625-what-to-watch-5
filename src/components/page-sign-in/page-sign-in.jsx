@@ -2,11 +2,12 @@ import React from "react";
 import Footer from "../footer/footer";
 import Header from "../header/header";
 import HeaderPageTitle from "../header-page-title/header-page-title";
+import {PageType} from "../../constants";
 
 const PageSignIn = () => {
   return (
     <div className="user-page">
-      <Header pageType="user-page">
+      <Header pageType={PageType.USER_PAGE}>
         <HeaderPageTitle>Sign in</HeaderPageTitle>
       </Header>
 

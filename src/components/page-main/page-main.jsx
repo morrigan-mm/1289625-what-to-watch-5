@@ -5,6 +5,7 @@ import Footer from "../footer/footer";
 import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
 import {filmShape} from "../../prop-types";
+import {PageType} from "../../constants";
 
 const PageMain = (props) => {
   const {promo, films} = props;
@@ -19,7 +20,7 @@ const PageMain = (props) => {
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <Header pageType="movie-card">
+        <Header pageType={PageType.MOVIE_CARD}>
           <HeaderUserBlock />
         </Header>
 
