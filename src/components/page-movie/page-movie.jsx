@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
@@ -6,27 +7,13 @@ import Footer from "../footer/footer";
 import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
 import {filmShape} from "../../prop-types";
+import PageMovieReviews from "../page-movie-reviews/page-movie-reviews";
+import PageMovieDetails from "../page-movie-details/page-movie-details";
+import PageMovieOverview from "../page-movie-overview/page-movie-overview";
+import {PageMovieTab} from "../../constants";
+import {PageType} from "../../constants";
 
 const MAX_SIMILAR_MOVIES_COUNT = 4;
-
-const generateRatingDetails = (rating) => {
-  const integer = Number(rating.split(`,`)[0]);
-
-  if (integer < 3) {
-    return `Very Bad`;
-  }
-  if (integer >= 3 && integer < 5) {
-    return `Normal`;
-  }
-  if (integer >= 5 && integer < 8) {
-    return `Good`;
-  }
-  if (integer >= 8 && integer < 10) {
-    return `Very Good`;
-  } else {
-    return `Awesome`;
-  }
-};
 
 const filterSimilarMovies = (filmList, genre, filmId) => {
   const result = [];
@@ -45,13 +32,34 @@ class PageMovie extends PureComponent {
     super(props);
   }
 
+  renderTab(tab, caption) {
+    const isActive = tab === this.props.activeTab;
+    return (
+      <li className={classNames(`movie-nav__item`, {'movie-nav__item--active': isActive})}>
+        <Link to={tab} className="movie-nav__link">{caption}</Link>
+      </li>
+    );
+  }
+
+  renderTabContent() {
+    const {activeTab, film} = this.props;
+
+    switch (activeTab) {
+      case PageMovieTab.OVERVIEW:
+        return <PageMovieOverview film={film} />;
+      case PageMovieTab.DETAILS:
+        return <PageMovieDetails film={film} />;
+      case PageMovieTab.REVIEWS:
+        return <PageMovieReviews reviews={film.reviews} />;
+      default:
+        return null;
+    }
+  }
+
   render() {
     const {films, film} = this.props;
-    const {title, genre, releaseDate, poster, rating, ratingCount, description, director, actors} = film;
+    const {title, genre, releaseDate, poster} = film;
     const similarFilms = filterSimilarMovies(films, genre, film.id);
-
-    const actorsShortList = actors.slice(0, 4).join(`, `);
-    const ratingDetails = generateRatingDetails(rating);
 
     return (
       <>
@@ -63,7 +71,7 @@ class PageMovie extends PureComponent {
 
             <h1 className="visually-hidden">WTW</h1>
 
-            <Header pageType="movie-card">
+            <Header pageType={PageType.MOVIE_CARD}>
               <HeaderUserBlock />
             </Header>
 
@@ -103,33 +111,13 @@ class PageMovie extends PureComponent {
               <div className="movie-card__desc">
                 <nav className="movie-nav movie-card__nav">
                   <ul className="movie-nav__list">
-                    <li className="movie-nav__item movie-nav__item--active">
-                      <a href="#" className="movie-nav__link">Overview</a>
-                    </li>
-                    <li className="movie-nav__item">
-                      <a href="#" className="movie-nav__link">Details</a>
-                    </li>
-                    <li className="movie-nav__item">
-                      <a href="#" className="movie-nav__link">Reviews</a>
-                    </li>
+                    {this.renderTab(PageMovieTab.OVERVIEW, `Overview`)}
+                    {this.renderTab(PageMovieTab.DETAILS, `Details`)}
+                    {this.renderTab(PageMovieTab.REVIEWS, `Reviews`)}
                   </ul>
                 </nav>
 
-                <div className="movie-rating">
-                  <div className="movie-rating__score">{rating}</div>
-                  <p className="movie-rating__meta">
-                    <span className="movie-rating__level">{ratingDetails}</span>
-                    <span className="movie-rating__count">{ratingCount} ratings</span>
-                  </p>
-                </div>
-
-                <div className="movie-card__text">
-                  <p>{description}</p>
-
-                  <p className="movie-card__director"><strong>Director: {director}</strong></p>
-
-                  <p className="movie-card__starring"><strong>Starring: {actorsShortList} and other</strong></p>
-                </div>
+                {this.renderTabContent()}
               </div>
             </div>
           </div>
@@ -151,7 +139,8 @@ class PageMovie extends PureComponent {
 
 PageMovie.propTypes = {
   films: PropTypes.arrayOf(filmShape).isRequired,
-  film: filmShape.isRequired
+  film: filmShape.isRequired,
+  activeTab: PropTypes.oneOf(Object.values(PageMovieTab)).isRequired
 };
 
 export default PageMovie;

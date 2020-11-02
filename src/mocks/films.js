@@ -32,12 +32,13 @@ const Reviews = [
 
 const FilmIds = [`cVuqZSZCysDHc_5qM9dEx`, `AIzgefMlfaHJyg_vOnc-f`, `GUFUG7cU21RzkvDo5Hcru`, `hB4EQhyVs-AJ4DY3aj5nj`, `H_jRqxXf-odFFgWVt0RX7`, `p-0RWpr_Yd2VksL88s89Z`, `mLFkNk1uItVQMoUxIo9Nb`, `csYYyqC7wu4l-9H6D4VJn`];
 
-const generateReview = () => {
+const generateReview = (reviewIndex) => {
   return {
+    id: reviewIndex,
     text: Reviews[getRandomInteger(0, Reviews.length - 1)],
-    rating: `7`,
+    rating: 7.2,
     author: `John Doe`,
-    reviewDate: new Date().toDateString()
+    reviewDate: new Date().toISOString()
   };
 };
 
@@ -57,12 +58,12 @@ const generateFilmCard = (i) => {
     genre: Genres[getRandomInteger(0, Genres.length - 1)],
     releaseDate: `2017`,
     description: Descriptions[getRandomInteger(0, Descriptions.length - 1)],
-    rating: `${getRandomInteger(2, 8)},${getRandomInteger(0, 9)}`,
+    rating: Number(`${getRandomInteger(2, 8)}.${getRandomInteger(0, 9)}`),
     ratingCount: 14,
     director: Directors[getRandomInteger(0, Directors.length - 1)],
     actors: Actors.slice(0, getRandomInteger(1, Actors.length - 1)),
-    runtime: `1h 47m`,
-    reviews: new Array(getRandomInteger(0, 7)).fill().map(generateReview),
+    runtime: 100,
+    reviews: new Array(getRandomInteger(0, 7)).fill().map((item, index) => generateReview(index)),
     addedToMyList: getRandomBoolean()
   };
 };

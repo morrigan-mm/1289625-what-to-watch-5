@@ -2,13 +2,14 @@ import classNames from "classnames";
 import React from "react";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
+import {PageType} from "../../constants";
 
 const Header = ({children, pageType}) => {
   return (
     <header
       className={classNames(`page-header`, {
-        'movie-card__head': pageType === `movie-card`,
-        'user-page__head': pageType === `user-page`,
+        'movie-card__head': pageType === PageType.MOVIE_CARD,
+        'user-page__head': pageType === PageType.USER_PAGE,
       })}
     >
       <div className="logo">
@@ -25,7 +26,7 @@ const Header = ({children, pageType}) => {
 
 Header.propTypes = {
   children: PropTypes.node,
-  pageType: PropTypes.oneOf([`movie-card`, `user-page`])
+  pageType: PropTypes.oneOf(Object.values(PageType))
 };
 
 export default Header;

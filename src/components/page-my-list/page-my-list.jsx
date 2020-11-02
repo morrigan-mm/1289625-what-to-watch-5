@@ -6,12 +6,13 @@ import Header from "../header/header";
 import HeaderPageTitle from "../header-page-title/header-page-title";
 import HeaderUserBlock from "../header-user-block/header-user-block";
 import {filmShape} from "../../prop-types";
+import {PageType} from "../../constants";
 
 const PageMyList = ({films}) => {
   return (
     <div className="user-page">
 
-      <Header pageType="user-page">
+      <Header pageType={PageType.USER_PAGE}>
         <HeaderPageTitle>My list</HeaderPageTitle>
         <HeaderUserBlock />
       </Header>
