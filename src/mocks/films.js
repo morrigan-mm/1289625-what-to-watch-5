@@ -21,7 +21,7 @@ const Descriptions = [
 const Directors = [`Justin Kurzel`, `David Fincher`, `Jeff Nichols`, `Sally Potter`];
 const Actors = [`Sharon Davison`, `Anna Torv`, `Michael Shannon`, `Sam Shepard`, `Joel Edgerton`, `Kirsten Dunst`, `Adam Driver`, `Uma Thurman`];
 const Covers = [`mindhunter`, `orlando`, `macbeth`, `johnny-english`, `no-country-for-old-men`, `moonrise-kingdom`, `we-need-to-talk-about-kevin`, `midnight-special`, `revenant`, `snatch`, `pulp-fiction`];
-const Genres = [`Comedy`, `Drama`, `Thriller`, `Horror`, `Musical`];
+const Genres = [`Comedy`, `Drama`, `Thriller`, `Horror`, `Musical`, `Sci-Fi`, `Kids & Family`, `Documentary`];
 const Reviews = [
   `Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director's funniest and most exquisitely designed movies in years.`,
   `It is certainly a magical and childlike way of storytelling, even if the content is a little more adult.`,

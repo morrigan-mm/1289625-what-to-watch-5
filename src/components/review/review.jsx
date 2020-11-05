@@ -5,7 +5,7 @@ const Review = ({review}) => {
   const {author, text, reviewDate, rating} = review;
 
   const reviewRate = rating.toString().replace(`.`, `,`);
-  const dateTime = new Date(reviewDate).toDateString(`sv-SE`); // YYYY-MM-DD
+  const dateTime = new Date(reviewDate).toLocaleDateString(`en-CA`); // YYYY-MM-DD
   const fullReviewDate = new Date(reviewDate).toLocaleString(`en-US`, {month: `long`, day: `numeric`, year: `numeric`});
 
   return (

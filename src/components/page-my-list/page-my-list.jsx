@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import MovieList from "../movie-list/movie-list";
 import Footer from "../footer/footer";
 import Header from "../header/header";
@@ -7,6 +8,8 @@ import HeaderPageTitle from "../header-page-title/header-page-title";
 import HeaderUserBlock from "../header-user-block/header-user-block";
 import {filmShape} from "../../prop-types";
 import {PageType} from "../../constants";
+
+const filterMyFilms = (filmList) => filmList.filter((film) => film.addedToMyList);
 
 const PageMyList = ({films}) => {
   return (
@@ -32,4 +35,10 @@ PageMyList.propTypes = {
   films: PropTypes.arrayOf(filmShape).isRequired
 };
 
-export default PageMyList;
+const mapStateToProps = (state) => ({
+  films: filterMyFilms(state.allFilms)
+});
+
+export {PageMyList};
+
+export default connect(mapStateToProps)(PageMyList);

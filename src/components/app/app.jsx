@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {Switch, Route, Redirect, BrowserRouter} from "react-router-dom";
 import PageMain from "../page-main/page-main";
 import PageSignIn from "../page-sign-in/page-sign-in";
@@ -10,49 +9,38 @@ import Player from "../player/player";
 import {filmShape} from "../../prop-types";
 import {PageMovieTab} from "../../constants";
 
-const filterMyFilms = (filmList) => filmList.filter((film) => film.addedToMyList);
-
-const App = ({promo, films}) => {
+const App = ({promo}) => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
           <PageMain
             promo={promo}
-            films={films}
           />
         </Route>
         <Route exact path="/login">
           <PageSignIn />
         </Route>
         <Route exact path="/mylist">
-          <PageMyList
-            films={filterMyFilms(films)}
-          />
+          <PageMyList />
         </Route>
         <Route exact
           path="/films/:id/review"
-          render={({match}) => {
-            const film = films.find(({id}) => id === match.params.id);
-            return (
-              <PageAddReview
-                film={film}
-              />
-            );
-          }}/>
+          render={({match}) => (
+            <PageAddReview
+              filmId={match.params.id}
+            />
+          )}
+        />
         <Redirect exact from="/films/:id" to={`/films/:id/${PageMovieTab.OVERVIEW}`} />
         <Route exact
           path="/films/:id/:tab"
-          render={({match}) => {
-            const film = films.find(({id}) => id === match.params.id);
-            return (
-              <PageMovie
-                films={films}
-                film={film}
-                activeTab={match.params.tab}
-              />
-            );
-          }}
+          render={({match}) => (
+            <PageMovie
+              filmId={match.params.id}
+              activeTab={match.params.tab}
+            />
+          )}
         />
         <Route exact path="/player/:id">
           <Player />
@@ -63,8 +51,7 @@ const App = ({promo, films}) => {
 };
 
 App.propTypes = {
-  promo: filmShape.isRequired,
-  films: PropTypes.arrayOf(filmShape).isRequired
+  promo: filmShape.isRequired
 };
 
 export default App;
