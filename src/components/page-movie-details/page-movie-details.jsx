@@ -11,18 +11,19 @@ const convertRuntime = (minutes) => {
 };
 
 const renderActorsList = (actorsList) => {
-  const result = [];
+  const iMax = actorsList.length - 1;
 
-  for (let i = 0; i < actorsList.length; i++) {
-    const isLast = i === actorsList.length - 1;
-    const name = isLast ? actorsList[i] : `${actorsList[i]},`;
+  return actorsList.reduce((result, actor, i) => {
+    const isLast = i === iMax;
+    const name = isLast ? actor : `${actor},`;
     result.push(name);
+
     if (!isLast) {
       result.push(<br key={i} />);
     }
-  }
 
-  return result;
+    return result;
+  }, []);
 };
 
 const PageMovieDetails = ({film}) => {
