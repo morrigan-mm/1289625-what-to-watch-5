@@ -2,6 +2,7 @@ import classNames from "classnames";
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 import MovieList from "../movie-list/movie-list";
 import Footer from "../footer/footer";
 import Header from "../header/header";
@@ -140,7 +141,15 @@ class PageMovie extends PureComponent {
 PageMovie.propTypes = {
   films: PropTypes.arrayOf(filmShape).isRequired,
   film: filmShape.isRequired,
+  filmId: PropTypes.string.isRequired,
   activeTab: PropTypes.oneOf(Object.values(PageMovieTab)).isRequired
 };
 
-export default PageMovie;
+const mapStateToProps = (state, ownProps) => ({
+  films: state.allFilms,
+  film: state.allFilms.find(({id}) => id === ownProps.filmId)
+});
+
+export {PageMovie};
+
+export default connect(mapStateToProps)(PageMovie);

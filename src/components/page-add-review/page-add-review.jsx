@@ -1,4 +1,6 @@
 import React, {Fragment, PureComponent} from "react";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import Breadcrumbs from "../breadcrumbs/breadcrumbs";
 import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
@@ -123,7 +125,14 @@ class PageAddReview extends PureComponent {
 }
 
 PageAddReview.propTypes = {
-  film: filmShape
+  film: filmShape,
+  filmId: PropTypes.string.isRequired
 };
 
-export default PageAddReview;
+const mapStateToProps = (state, ownProps) => ({
+  film: state.allFilms.find(({id}) => id === ownProps.filmId)
+});
+
+export {PageAddReview};
+
+export default connect(mapStateToProps)(PageAddReview);

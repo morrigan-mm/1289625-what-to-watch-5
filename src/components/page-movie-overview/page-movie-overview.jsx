@@ -1,23 +1,33 @@
 import React from "react";
 import {filmShape} from "../../prop-types";
+import {formatNumberWithComma} from "../../utils";
 
 const generateRatingDetails = (rating) => {
-  if (rating < 3) {
-    return `Very Bad`;
-  }
-  if (rating >= 3 && rating < 5) {
-    return `Normal`;
-  }
-  if (rating >= 5 && rating < 8) {
-    return `Good`;
-  }
-  if (rating >= 8 && rating < 10) {
-    return `Very Good`;
-  }
-  return `Awesome`;
-};
+  const integer = Math.max(0, Math.floor(rating));
 
-const formatRating = (rating) => rating.toFixed(1).replace(`.`, `,`);
+  switch (integer) {
+    case 0:
+    case 1:
+    case 2:
+      return `Very Bad`;
+
+    case 3:
+    case 4:
+      return `Normal`;
+
+    case 5:
+    case 6:
+    case 7:
+      return `Good`;
+
+    case 8:
+    case 9:
+      return `Very Good`;
+
+    default:
+      return `Awesome`;
+  }
+};
 
 const PageMovieOverview = ({film}) => {
   const {actors, rating, ratingCount, description, director} = film;
@@ -28,7 +38,7 @@ const PageMovieOverview = ({film}) => {
   return (
     <>
       <div className="movie-rating">
-        <div className="movie-rating__score">{formatRating(rating)}</div>
+        <div className="movie-rating__score">{formatNumberWithComma(rating)}</div>
         <p className="movie-rating__meta">
           <span className="movie-rating__level">{ratingDetails}</span>
           <span className="movie-rating__count">{ratingCount} ratings</span>

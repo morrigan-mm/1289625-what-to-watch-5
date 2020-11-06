@@ -1,12 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import {createStore} from "redux";
+import {Provider} from "react-redux";
 import App from "./components/app/app";
-import {films, promo} from "./mocks/films";
+import {reducer} from "./store/reducer";
+import {promo} from "./mocks/films";
+
+const store = createStore(
+    reducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f
+);
 
 ReactDOM.render(
-    <App
-      films={films}
-      promo={promo}
-    />,
+    <Provider store={store}>
+      <App
+        promo={promo}
+      />
+    </Provider>,
     document.getElementById(`root`)
 );

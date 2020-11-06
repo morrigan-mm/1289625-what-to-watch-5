@@ -1,11 +1,12 @@
 import React from "react";
 import {reviewShape} from "../../prop-types";
+import {formatNumberWithComma} from "../../utils";
 
 const Review = ({review}) => {
   const {author, text, reviewDate, rating} = review;
 
-  const reviewRate = rating.toString().replace(`.`, `,`);
-  const dateTime = new Date(reviewDate).toDateString(`sv-SE`); // YYYY-MM-DD
+  const reviewRate = formatNumberWithComma(rating);
+  const dateTime = new Date(reviewDate).toLocaleDateString(`en-CA`); // YYYY-MM-DD
   const fullReviewDate = new Date(reviewDate).toLocaleString(`en-US`, {month: `long`, day: `numeric`, year: `numeric`});
 
   return (
