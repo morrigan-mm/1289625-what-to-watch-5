@@ -8,7 +8,7 @@ import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
 import {filmShape} from "../../prop-types";
 import {PageType} from "../../constants";
-import {getGenres} from "../../movie-filter";
+import {filterByGenre, getGenres} from "../../movie-filter";
 import GenreList from "../genre-list/genre-list";
 
 const PageMain = (props) => {
@@ -89,8 +89,8 @@ PageMain.propTypes = {
 
 const mapStateToProps = (state) => ({
   activeGenre: state.activeGenre,
-  films: state.activeGenre ? state.films : state.allFilms,
-  genres: getGenres(state.allFilms)
+  films: state.activeGenre ? filterByGenre(state.films, state.activeGenre) : state.films,
+  genres: getGenres(state.films)
 });
 
 const mapDispatchToProps = (dispatch) => ({

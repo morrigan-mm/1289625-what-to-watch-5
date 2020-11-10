@@ -36,7 +36,7 @@ PageMyList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  films: filterMyFilms(state.allFilms)
+  films: filterMyFilms(state.films)
 });
 
 export {PageMyList};

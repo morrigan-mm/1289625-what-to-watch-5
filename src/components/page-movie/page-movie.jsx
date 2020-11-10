@@ -60,7 +60,6 @@ class PageMovie extends PureComponent {
   render() {
     const {films, film} = this.props;
     const {title, genre, releaseDate, poster} = film;
-    const similarFilms = filterSimilarMovies(films, genre, film.id);
 
     return (
       <>
@@ -128,7 +127,7 @@ class PageMovie extends PureComponent {
           <section className="catalog catalog--like-this">
             <h2 className="catalog__title">More like this</h2>
 
-            <MovieList films={similarFilms} />
+            <MovieList films={films} />
           </section>
 
           <Footer />
@@ -145,10 +144,12 @@ PageMovie.propTypes = {
   activeTab: PropTypes.oneOf(Object.values(PageMovieTab)).isRequired
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  films: state.allFilms,
-  film: state.allFilms.find(({id}) => id === ownProps.filmId)
-});
+const mapStateToProps = (state, ownProps) => {
+  const film = state.films.find(({id}) => id === ownProps.filmId);
+  const films = filterSimilarMovies(state.films, film.genre, film.id);
+
+  return {film, films};
+};
 
 export {PageMovie};
 
