@@ -11,10 +11,10 @@ const convertRuntime = (minutes) => {
 };
 
 const renderActorsList = (actorsList) => {
-  const iMax = actorsList.length - 1;
+  const actorsCount = actorsList.length - 1;
 
   return actorsList.reduce((result, actor, i) => {
-    const isLast = i === iMax;
+    const isLast = i === actorsCount;
     const name = isLast ? actor : `${actor},`;
     result.push(name);
 

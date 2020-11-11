@@ -9,7 +9,7 @@ export const getRandomBoolean = () => {
   return Boolean(getRandomInteger());
 };
 
-const Titles = [`Mindhunter`, `Macbeth`, `Johnny English`, `Midnight Special`, `Orlando`, `Revenant`, `Snatch`, `Pulp Fiction`];
+const Titles = [`Mindhunter`, `Macbeth`, `Johnny English`, `Midnight Special`, `Orlando`, `Revenant`, `Snatch`, `Pulp Fiction`, `War of the Worlds`, `Shutter Island`, `What We Do in the Shadows`, `Moonrise Kingdom`, `Aviator`, `Apostile`, `Resitude`, `His House`];
 const Descriptions = [
   `In the late 1970s two FBI agents expand criminal science by delving into the psychology of murder and getting uneasily close to all-too-real monsters.`,
   `Macbeth, the Thane of Glamis, receives a prophecy from a trio of witches that one day he will become King of Scotland. Consumed by ambition and spurred to action by his wife, Macbeth murders his king and takes the throne for himself.`,
@@ -30,7 +30,9 @@ const Reviews = [
   `The mannered, madcap proceedings are often delightful, occasionally silly, and here and there, gruesome and/or heartbreaking.`
 ];
 
-const FilmIds = [`cVuqZSZCysDHc_5qM9dEx`, `AIzgefMlfaHJyg_vOnc-f`, `GUFUG7cU21RzkvDo5Hcru`, `hB4EQhyVs-AJ4DY3aj5nj`, `H_jRqxXf-odFFgWVt0RX7`, `p-0RWpr_Yd2VksL88s89Z`, `mLFkNk1uItVQMoUxIo9Nb`, `csYYyqC7wu4l-9H6D4VJn`];
+const FilmIds = [`cVuqZSZCysDHc_5qM9dEx`, `AIzgefMlfaHJyg_vOnc-f`, `GUFUG7cU21RzkvDo5Hcru`, `hB4EQhyVs-AJ4DY3aj5nj`, `H_jRqxXf-odFFgWVt0RX7`, `p-0RWpr_Yd2VksL88s89Z`, `mLFkNk1uItVQMoUxIo9Nb`, `csYYyqC7wu4l-9H6D4VJn`, `oWiqZSZCysDHc_5qM9dEx`, `P1RgefMlfaHJyg_vOnc-f`, `PUFUq8cU21RzkvDo5Hcru`, `jB6EQhyVs-AJ4DY3aj5nj`, `T_j11xXf-odFFgWVt0RX7`, `z-0LWpr_Yd2VksL88s89Z`, `kLFkNk1uItVQm0UxIo9Nb`, `csYYyqC7WX4l-9H6D4VJn`];
+
+const FilmsMaxCount = FilmIds.length;
 
 const generateReview = (reviewIndex) => {
   return {
@@ -68,5 +70,5 @@ const generateFilmCard = (i) => {
   };
 };
 
-export const films = new Array(8).fill().map((film, i) => generateFilmCard(i));
+export const films = new Array(FilmsMaxCount).fill().map((film, i) => generateFilmCard(i));
 export const promo = films[2];

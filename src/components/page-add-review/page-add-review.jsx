@@ -130,7 +130,7 @@ PageAddReview.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  film: state.allFilms.find(({id}) => id === ownProps.filmId)
+  film: state.films.find(({id}) => id === ownProps.filmId)
 });
 
 export {PageAddReview};

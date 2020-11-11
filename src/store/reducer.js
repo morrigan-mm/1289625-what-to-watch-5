@@ -1,12 +1,13 @@
 import {films} from "../mocks/films";
 import {extend} from "../utils";
-import {filterByGenre} from "../movie-filter";
 import {ActionType} from "./action";
+
+const DEFAULT_PAGE = 1;
 
 const initialState = {
   activeGenre: ``,
   films,
-  allFilms: films.slice()
+  page: DEFAULT_PAGE
 };
 
 const reducer = (state = initialState, action) => {
@@ -14,7 +15,16 @@ const reducer = (state = initialState, action) => {
     case ActionType.FILTER_BY_GENRE:
       return extend(state, {
         activeGenre: action.payload,
-        films: filterByGenre(state.allFilms, action.payload)
+        page: DEFAULT_PAGE
+      });
+    case ActionType.INCR_MOVIES_PAGE:
+      return extend(state, {
+        page: state.page + 1
+      });
+    case ActionType.RESET_MOVIES:
+      return extend(state, {
+        activeGenre: ``,
+        page: DEFAULT_PAGE
       });
     default:
       return state;
