@@ -12,7 +12,7 @@ import {filmShape} from "../../prop-types";
 import {PageType} from "../../constants";
 import {filterByGenre, getGenres} from "../../movie-filter";
 
-const PAGE_SIZE = 8;
+const MOVIES_PER_CHUNK = 8;
 
 class PageMain extends Component {
   constructor(props) {
@@ -76,9 +76,9 @@ class PageMain extends Component {
           <section className="catalog">
             <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-            {<GenreList genres={genres} activeGenre={activeGenre} onGenreClick={onGenreSelect} />}
+            <GenreList genres={genres} activeGenre={activeGenre} onGenreClick={onGenreSelect} />
 
-            {<MovieList films={films} />}
+            <MovieList films={films} />
 
             {hasMoreFilms && <ShowMoreButton onClick={onShowMoreButtonClick} />}
           </section>
@@ -103,7 +103,7 @@ PageMain.propTypes = {
 
 const mapStateToProps = (state) => {
   const films = state.activeGenre ? filterByGenre(state.films, state.activeGenre) : state.films;
-  const filmsCount = state.page * PAGE_SIZE;
+  const filmsCount = state.chunk * MOVIES_PER_CHUNK;
 
   return {
     activeGenre: state.activeGenre,
@@ -118,7 +118,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ActionCreator.filterByGenre(genre));
   },
   onShowMoreButtonClick() {
-    dispatch(ActionCreator.incrementMoviesPage());
+    dispatch(ActionCreator.setNextMoviesChunk());
   },
   onComponentWillUnmount() {
     dispatch(ActionCreator.resetMovies());

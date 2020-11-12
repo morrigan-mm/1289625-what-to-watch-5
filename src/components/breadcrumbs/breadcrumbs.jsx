@@ -4,7 +4,6 @@ import {Link} from "react-router-dom";
 import {breadcrumbShape} from "../../prop-types";
 
 const Breadcrumbs = ({breadcrumbs}) => {
-
   return (
     <nav className="breadcrumbs">
       <ul className="breadcrumbs__list">
@@ -17,8 +16,7 @@ const Breadcrumbs = ({breadcrumbs}) => {
                 <span className="breadcrumbs__link">{breadcrumb.text}</span>
               )}
             </li>
-          ))
-        }
+          ))}
       </ul>
     </nav>
   );
