@@ -1,6 +1,6 @@
 export const ActionType = {
   FILTER_BY_GENRE: `FILTER_BY_GENRE`,
-  INCR_MOVIES_PAGE: `INCR_MOVIES_PAGE`,
+  SET_NEXT_MOVIES_CHUNK: `SET_NEXT_MOVIES_CHUNK`,
   RESET_MOVIES: `RESET_MOVIES`
 };
 
@@ -9,8 +9,8 @@ export const ActionCreator = {
     type: ActionType.FILTER_BY_GENRE,
     payload: genre
   }),
-  incrementMoviesPage: () => ({
-    type: ActionType.INCR_MOVIES_PAGE
+  setNextMoviesChunk: () => ({
+    type: ActionType.SET_NEXT_MOVIES_CHUNK
   }),
   resetMovies: () => ({
     type: ActionType.RESET_MOVIES

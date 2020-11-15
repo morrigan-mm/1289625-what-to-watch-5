@@ -13,9 +13,7 @@ const store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-      <App
-        promo={promo}
-      />
+      <App promo={promo} />
     </Provider>,
     document.getElementById(`root`)
 );

@@ -11,8 +11,7 @@ import {filmShape} from "../../prop-types";
 import PageMovieReviews from "../page-movie-reviews/page-movie-reviews";
 import PageMovieDetails from "../page-movie-details/page-movie-details";
 import PageMovieOverview from "../page-movie-overview/page-movie-overview";
-import {PageMovieTab} from "../../constants";
-import {PageType} from "../../constants";
+import {PageMovieTab, PageType} from "../../constants";
 
 const MAX_SIMILAR_MOVIES_COUNT = 4;
 
@@ -35,6 +34,7 @@ class PageMovie extends PureComponent {
 
   renderTab(tab, caption) {
     const isActive = tab === this.props.activeTab;
+
     return (
       <li className={classNames(`movie-nav__item`, {'movie-nav__item--active': isActive})}>
         <Link to={tab} className="movie-nav__link">{caption}</Link>
