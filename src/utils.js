@@ -2,8 +2,10 @@ export const extend = (a, b) => {
   return Object.assign({}, a, b);
 };
 
+const commaFormatter = new Intl.NumberFormat(`ru`, {minimumFractionDigits: 1});
+
 export const formatNumberWithComma = (number) => {
-  return number.toLocaleString(`ru`);
+  return commaFormatter.format(number);
 };
 
 export const formatDateTime = (date, format) => {

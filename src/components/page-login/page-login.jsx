@@ -4,7 +4,7 @@ import Header from "../header/header";
 import HeaderPageTitle from "../header-page-title/header-page-title";
 import {PageType} from "../../constants";
 
-const PageSignIn = () => {
+const PageLogin = () => {
   return (
     <div className="user-page">
       <Header pageType={PageType.USER_PAGE}>
@@ -34,4 +34,4 @@ const PageSignIn = () => {
   );
 };
 
-export default PageSignIn;
+export default PageLogin;

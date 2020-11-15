@@ -22,4 +22,4 @@ MovieCard.propTypes = {
   film: filmShape.isRequired
 };
 
-export default MovieCard;
+export default React.memo(MovieCard);

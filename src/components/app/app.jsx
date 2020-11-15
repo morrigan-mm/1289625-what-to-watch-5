@@ -1,7 +1,7 @@
 import React from "react";
 import {Switch, Route, Redirect, BrowserRouter} from "react-router-dom";
 import PageMain from "../page-main/page-main";
-import PageSignIn from "../page-sign-in/page-sign-in";
+import PageLogin from "../page-login/page-login";
 import PageAddReview from "../page-add-review/page-add-review";
 import PageMovie from "../page-movie/page-movie";
 import PageMyList from "../page-my-list/page-my-list";
@@ -14,12 +14,10 @@ const App = ({promo}) => {
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <PageMain
-            promo={promo}
-          />
+          <PageMain promo={promo} />
         </Route>
         <Route exact path="/login">
-          <PageSignIn />
+          <PageLogin />
         </Route>
         <Route exact path="/mylist">
           <PageMyList />

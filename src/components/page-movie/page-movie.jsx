@@ -34,6 +34,7 @@ class PageMovie extends PureComponent {
 
   renderTab(tab, caption) {
     const isActive = tab === this.props.activeTab;
+
     return (
       <li className={classNames(`movie-nav__item`, {'movie-nav__item--active': isActive})}>
         <Link to={tab} className="movie-nav__link">{caption}</Link>
