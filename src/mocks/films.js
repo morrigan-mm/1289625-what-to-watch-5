@@ -55,6 +55,7 @@ const generateFilmCard = (i) => {
     id,
     poster: `/img/the-grand-budapest-hotel-poster.jpg`,
     preview: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`,
+    video: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`,
     cover: `/img/${Covers[getRandomInteger(0, Covers.length - 1)]}.jpg`,
     title: Titles[i],
     genre: Genres[getRandomInteger(0, Genres.length - 1)],

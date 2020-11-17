@@ -8,13 +8,28 @@ import PageMyList from "../page-my-list/page-my-list";
 import Player from "../player/player";
 import {filmShape} from "../../prop-types";
 import {PageMovieTab} from "../../constants";
+import withPlayingState from "../../hocs/with-playing-state/with-playing-state";
+
+const WithPlayingStatePlayer = withPlayingState(Player);
+
+const getPlayButtonClickHandler = (history) => (id) => {
+  history.push(`/player/${id}`);
+};
+
+const getExitButtonClickHandler = (history) => (id) => {
+  history.push(`/films/${id}`);
+};
 
 const App = ({promo}) => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/">
-          <PageMain promo={promo} />
+        <Route exact path="/" render={({history}) => (
+          <PageMain
+            onPlayButtonClick={getPlayButtonClickHandler(history)}
+            promo={promo}
+          />
+        )}>
         </Route>
         <Route exact path="/login">
           <PageLogin />
@@ -33,16 +48,22 @@ const App = ({promo}) => {
         <Redirect exact from="/films/:id" to={`/films/:id/${PageMovieTab.OVERVIEW}`} />
         <Route exact
           path="/films/:id/:tab"
-          render={({match}) => (
+          render={({match, history}) => (
             <PageMovie
-              filmId={match.params.id}
               activeTab={match.params.tab}
+              filmId={match.params.id}
+              onPlayButtonClick={getPlayButtonClickHandler(history)}
             />
           )}
         />
-        <Route exact path="/player/:id">
-          <Player />
-        </Route>
+        <Route exact
+          path="/player/:id"
+          render={({match, history}) => (
+            <WithPlayingStatePlayer
+              filmId={match.params.id}
+              onExitButtonClick={getExitButtonClickHandler(history)}
+            />
+          )} />
       </Switch>
     </BrowserRouter>
   );
