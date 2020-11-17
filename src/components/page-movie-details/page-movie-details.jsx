@@ -3,9 +3,7 @@ import {filmShape} from "../../prop-types";
 
 const convertRuntime = (minutes) => {
   const hours = Math.floor(minutes / 60);
-  let restMinutes = minutes % 60;
-
-  restMinutes = restMinutes < 10 ? `0${restMinutes}` : restMinutes;
+  const restMinutes = String(minutes % 60).padStart(2, `0`);
 
   return `${hours}h ${restMinutes}m`;
 };

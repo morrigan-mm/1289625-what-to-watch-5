@@ -32,6 +32,7 @@ class MoviePreview extends Component {
 
   render() {
     const {poster, video} = this.props;
+
     return (
       <video
         ref={this.videoRef}

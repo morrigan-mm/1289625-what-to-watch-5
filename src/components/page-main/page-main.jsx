@@ -28,13 +28,14 @@ class PageMain extends Component {
       genres,
       activeGenre,
       onGenreSelect,
+      onPlayButtonClick,
       onShowMoreButtonClick,
       hasMoreFilms
     } = this.props;
 
     return (
       <>
-        <PageMainHead promo={promo} />
+        <PageMainHead onPlayButtonClick={onPlayButtonClick} promo={promo} />
 
         <div className="page-content">
           <section className="catalog">
@@ -61,6 +62,7 @@ PageMain.propTypes = {
   activeGenre: PropTypes.string.isRequired,
   onGenreSelect: PropTypes.func.isRequired,
   onComponentWillUnmount: PropTypes.func.isRequired,
+  onPlayButtonClick: PropTypes.func.isRequired,
   onShowMoreButtonClick: PropTypes.func.isRequired,
   hasMoreFilms: PropTypes.bool.isRequired
 };

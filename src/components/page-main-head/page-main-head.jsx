@@ -1,10 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {PageType} from "../../constants";
 import {filmShape} from "../../prop-types";
 import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
 
-const PageMainHead = ({promo}) => {
+const PageMainHead = ({onPlayButtonClick, promo}) => {
   const {title, genre, releaseDate} = promo;
 
   return (
@@ -33,7 +34,7 @@ const PageMainHead = ({promo}) => {
             </p>
 
             <div className="movie-card__buttons">
-              <button className="btn btn--play movie-card__button" type="button">
+              <button className="btn btn--play movie-card__button" type="button" onClick={() => onPlayButtonClick(promo.id)}>
                 <svg viewBox="0 0 19 19" width="19" height="19">
                   <use href="#play-s"></use>
                 </svg>
@@ -54,7 +55,8 @@ const PageMainHead = ({promo}) => {
 };
 
 PageMainHead.propTypes = {
-  promo: filmShape.isRequired,
+  onPlayButtonClick: PropTypes.func.isRequired,
+  promo: filmShape.isRequired
 };
 
 export default React.memo(PageMainHead);

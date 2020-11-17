@@ -12,6 +12,7 @@ export const filmShape = PropTypes.shape({
   cover: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   preview: PropTypes.string.isRequired,
+  video: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   releaseDate: PropTypes.string.isRequired,
   poster: PropTypes.string.isRequired,

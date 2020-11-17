@@ -58,7 +58,7 @@ class PageMovie extends PureComponent {
   }
 
   render() {
-    const {films, film} = this.props;
+    const {films, film, onPlayButtonClick} = this.props;
     const {title, genre, releaseDate, poster} = film;
 
     return (
@@ -84,7 +84,7 @@ class PageMovie extends PureComponent {
                 </p>
 
                 <div className="movie-card__buttons">
-                  <button className="btn btn--play movie-card__button" type="button">
+                  <button className="btn btn--play movie-card__button" type="button" onClick={() => onPlayButtonClick(film.id)}>
                     <svg viewBox="0 0 19 19" width="19" height="19">
                       <use href="#play-s"></use>
                     </svg>
@@ -141,7 +141,8 @@ PageMovie.propTypes = {
   films: PropTypes.arrayOf(filmShape).isRequired,
   film: filmShape.isRequired,
   filmId: PropTypes.string.isRequired,
-  activeTab: PropTypes.oneOf(Object.values(PageMovieTab)).isRequired
+  activeTab: PropTypes.oneOf(Object.values(PageMovieTab)).isRequired,
+  onPlayButtonClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
