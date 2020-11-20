@@ -35,8 +35,8 @@ PageMyList.propTypes = {
   films: PropTypes.arrayOf(filmShape).isRequired
 };
 
-const mapStateToProps = (state) => ({
-  films: filterMyFilms(state.films)
+const mapStateToProps = ({DATA}) => ({
+  films: filterMyFilms(DATA.films)
 });
 
 export {PageMyList};

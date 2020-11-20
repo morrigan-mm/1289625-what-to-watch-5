@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 
 export const reviewShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
   rating: PropTypes.number.isRequired,
   author: PropTypes.string.isRequired,
@@ -8,13 +9,13 @@ export const reviewShape = PropTypes.shape({
 });
 
 export const filmShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   cover: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   preview: PropTypes.string.isRequired,
   video: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
-  releaseDate: PropTypes.string.isRequired,
+  releaseDate: PropTypes.number.isRequired,
   poster: PropTypes.string.isRequired,
   rating: PropTypes.number.isRequired,
   ratingCount: PropTypes.number.isRequired,
@@ -22,8 +23,9 @@ export const filmShape = PropTypes.shape({
   director: PropTypes.string.isRequired,
   actors: PropTypes.arrayOf(PropTypes.string).isRequired,
   runtime: PropTypes.number.isRequired,
-  reviews: PropTypes.arrayOf(reviewShape).isRequired,
-  addedToMyList: PropTypes.bool.isRequired
+  addedToMyList: PropTypes.bool.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
+  backgroundImage: PropTypes.string.isRequired
 });
 
 export const breadcrumbShape = PropTypes.shape({

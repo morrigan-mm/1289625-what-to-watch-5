@@ -101,7 +101,7 @@ const Player = (props) => {
 
 Player.propTypes = {
   film: filmShape.isRequired,
-  filmId: PropTypes.string.isRequired,
+  filmId: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
@@ -111,8 +111,8 @@ Player.propTypes = {
   onTimeUpdate: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  film: state.films.find(({id}) => id === ownProps.filmId)
+const mapStateToProps = ({DATA}, ownProps) => ({
+  film: DATA.films.find(({id}) => id === ownProps.filmId)
 });
 
 export default connect(mapStateToProps)(Player);

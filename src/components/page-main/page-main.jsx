@@ -7,8 +7,8 @@ import MovieList from "../movie-list/movie-list";
 import ShowMoreButton from "../show-more-button/show-more-button";
 import Footer from "../footer/footer";
 import {filmShape} from "../../prop-types";
-import {filterByGenre, getGenres} from "../../movie-filter";
 import PageMainHead from "../page-main-head/page-main-head";
+import {getGenre, getPromo, getFilmsCount, getGenreList, getFilteredFilms} from "../../store/selectors";
 
 const MOVIES_PER_CHUNK = 8;
 
@@ -68,14 +68,15 @@ PageMain.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const films = state.activeGenre ? filterByGenre(state.films, state.activeGenre) : state.films;
-  const filmsCount = state.chunk * MOVIES_PER_CHUNK;
+  const films = getFilteredFilms(state);
+  const filmsCount = getFilmsCount(MOVIES_PER_CHUNK)(state);
 
   return {
-    activeGenre: state.activeGenre,
+    activeGenre: getGenre(state),
     films: films.slice(0, filmsCount),
-    genres: getGenres(state.films),
-    hasMoreFilms: films.length > filmsCount
+    genres: getGenreList(state),
+    hasMoreFilms: films.length > filmsCount,
+    promo: getPromo(state)
   };
 };
 
