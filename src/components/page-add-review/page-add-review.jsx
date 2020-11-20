@@ -43,11 +43,11 @@ const PageAddReview = ({film}) => {
 
 PageAddReview.propTypes = {
   film: filmShape,
-  filmId: PropTypes.string.isRequired
+  filmId: PropTypes.number.isRequired
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  film: state.films.find(({id}) => id === ownProps.filmId)
+const mapStateToProps = ({DATA}, ownProps) => ({
+  film: DATA.films.find(({id}) => id === ownProps.filmId)
 });
 
 export {PageAddReview};

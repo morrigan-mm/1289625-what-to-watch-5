@@ -6,7 +6,6 @@ import PageAddReview from "../page-add-review/page-add-review";
 import PageMovie from "../page-movie/page-movie";
 import PageMyList from "../page-my-list/page-my-list";
 import Player from "../player/player";
-import {filmShape} from "../../prop-types";
 import {PageMovieTab} from "../../constants";
 import withPlayingState from "../../hocs/with-playing-state/with-playing-state";
 
@@ -20,14 +19,13 @@ const getExitButtonClickHandler = (history) => (id) => {
   history.push(`/films/${id}`);
 };
 
-const App = ({promo}) => {
+const App = () => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/" render={({history}) => (
           <PageMain
             onPlayButtonClick={getPlayButtonClickHandler(history)}
-            promo={promo}
           />
         )}>
         </Route>
@@ -41,7 +39,7 @@ const App = ({promo}) => {
           path="/films/:id/review"
           render={({match}) => (
             <PageAddReview
-              filmId={match.params.id}
+              filmId={Number(match.params.id)}
             />
           )}
         />
@@ -51,7 +49,7 @@ const App = ({promo}) => {
           render={({match, history}) => (
             <PageMovie
               activeTab={match.params.tab}
-              filmId={match.params.id}
+              filmId={Number(match.params.id)}
               onPlayButtonClick={getPlayButtonClickHandler(history)}
             />
           )}
@@ -60,17 +58,13 @@ const App = ({promo}) => {
           path="/player/:id"
           render={({match, history}) => (
             <WithPlayingStatePlayer
-              filmId={match.params.id}
+              filmId={Number(match.params.id)}
               onExitButtonClick={getExitButtonClickHandler(history)}
             />
           )} />
       </Switch>
     </BrowserRouter>
   );
-};
-
-App.propTypes = {
-  promo: filmShape.isRequired
 };
 
 export default App;

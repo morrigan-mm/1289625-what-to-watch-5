@@ -6,12 +6,12 @@ import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
 
 const PageMainHead = ({onPlayButtonClick, promo}) => {
-  const {title, genre, releaseDate} = promo;
+  const {title, poster, genre, backgroundImage, releaseDate} = promo;
 
   return (
     <section className="movie-card">
       <div className="movie-card__bg">
-        <img src="/img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+        <img src={backgroundImage} alt={title} />
       </div>
 
       <h1 className="visually-hidden">WTW</h1>
@@ -23,7 +23,7 @@ const PageMainHead = ({onPlayButtonClick, promo}) => {
       <div className="movie-card__wrap">
         <div className="movie-card__info">
           <div className="movie-card__poster">
-            <img src="/img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+            <img src={poster} alt={`${title} poster`} width="218" height="327" />
           </div>
 
           <div className="movie-card__desc">

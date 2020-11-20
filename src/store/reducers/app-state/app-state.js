@@ -1,14 +1,12 @@
-import {films} from "../mocks/films";
-import {extend} from "../utils";
-import {ActionType} from "./action";
+import {extend} from "../../../utils";
+import {ActionType} from "../../action";
 
 const initialState = {
   activeGenre: ``,
-  chunk: 1,
-  films
+  chunk: 1
 };
 
-const reducer = (state = initialState, action) => {
+const appState = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.FILTER_BY_GENRE:
       return extend(state, {
@@ -29,4 +27,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export {reducer};
+export {appState};

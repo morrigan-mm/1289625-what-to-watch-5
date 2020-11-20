@@ -7,29 +7,21 @@ import MovieList from "../movie-list/movie-list";
 import Footer from "../footer/footer";
 import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
-import {filmShape} from "../../prop-types";
+import {filmShape, reviewShape} from "../../prop-types";
 import PageMovieReviews from "../page-movie-reviews/page-movie-reviews";
 import PageMovieDetails from "../page-movie-details/page-movie-details";
 import PageMovieOverview from "../page-movie-overview/page-movie-overview";
 import {PageMovieTab, PageType} from "../../constants";
-
-const MAX_SIMILAR_MOVIES_COUNT = 4;
-
-const filterSimilarMovies = (filmList, genre, filmId) => {
-  const result = [];
-
-  for (let i = 0; i < filmList.length && result.length < MAX_SIMILAR_MOVIES_COUNT; i++) {
-    if (filmList[i].genre === genre && filmList[i].id !== filmId) {
-      result.push(filmList[i]);
-    }
-  }
-
-  return result;
-};
+import {fetchMovieReviews} from "../../store/api-actions";
+import {filterSimilarMovies} from "../../movie-filter";
 
 class PageMovie extends PureComponent {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.props.dispatchLoadReviews();
   }
 
   renderTab(tab, caption) {
@@ -43,7 +35,7 @@ class PageMovie extends PureComponent {
   }
 
   renderTabContent() {
-    const {activeTab, film} = this.props;
+    const {activeTab, film, reviews} = this.props;
 
     switch (activeTab) {
       case PageMovieTab.OVERVIEW:
@@ -51,7 +43,7 @@ class PageMovie extends PureComponent {
       case PageMovieTab.DETAILS:
         return <PageMovieDetails film={film} />;
       case PageMovieTab.REVIEWS:
-        return <PageMovieReviews reviews={film.reviews} />;
+        return <PageMovieReviews reviews={reviews} />;
       default:
         return null;
     }
@@ -59,14 +51,14 @@ class PageMovie extends PureComponent {
 
   render() {
     const {films, film, onPlayButtonClick} = this.props;
-    const {title, genre, releaseDate, poster} = film;
+    const {title, genre, releaseDate, poster, backgroundImage, backgroundColor} = film;
 
     return (
       <>
-        <section className="movie-card movie-card--full">
+        <section style={{background: backgroundColor}} className="movie-card movie-card--full">
           <div className="movie-card__hero">
             <div className="movie-card__bg">
-              <img src="/img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+              <img src={backgroundImage} alt={title} />
             </div>
 
             <h1 className="visually-hidden">WTW</h1>
@@ -140,18 +132,25 @@ class PageMovie extends PureComponent {
 PageMovie.propTypes = {
   films: PropTypes.arrayOf(filmShape).isRequired,
   film: filmShape.isRequired,
-  filmId: PropTypes.string.isRequired,
+  filmId: PropTypes.number.isRequired,
+  dispatchLoadReviews: PropTypes.func.isRequired,
+  reviews: PropTypes.arrayOf(reviewShape).isRequired,
   activeTab: PropTypes.oneOf(Object.values(PageMovieTab)).isRequired,
   onPlayButtonClick: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const film = state.films.find(({id}) => id === ownProps.filmId);
-  const films = filterSimilarMovies(state.films, film.genre, film.id);
+const mapStateToProps = ({DATA}, ownProps) => {
+  const film = DATA.films.find(({id}) => id === ownProps.filmId);
+  const films = filterSimilarMovies(DATA.films, film.genre, film.id);
+  const reviews = DATA.reviews[film.id] || [];
 
-  return {film, films};
+  return {film, films, reviews};
 };
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  dispatchLoadReviews: () => dispatch(fetchMovieReviews(ownProps.filmId))
+});
 
 export {PageMovie};
 
-export default connect(mapStateToProps)(PageMovie);
+export default connect(mapStateToProps, mapDispatchToProps)(PageMovie);
