@@ -54,6 +54,7 @@ const ReviewForm = (props) => {
           id="review-text"
           placeholder="Review text"
           onChange={(evt) => onTextChange(evt.target.value)}
+          value={text}
         />
         <div className="add-review__submit">
           <button

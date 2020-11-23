@@ -8,8 +8,10 @@ import PageMyList from "../page-my-list/page-my-list";
 import Player from "../player/player";
 import {PageMovieTab} from "../../constants";
 import withPlayingState from "../../hocs/with-playing-state/with-playing-state";
+import PrivateRoute from "../private-route/private-route";
 
 const WithPlayingStatePlayer = withPlayingState(Player);
+
 
 const getPlayButtonClickHandler = (history) => (id) => {
   history.push(`/player/${id}`);
@@ -32,10 +34,11 @@ const App = () => {
         <Route exact path="/login">
           <PageLogin />
         </Route>
-        <Route exact path="/mylist">
-          <PageMyList />
-        </Route>
-        <Route exact
+        <PrivateRoute exact
+          path={`/mylist`}
+          render={() => (<PageMyList />)}
+        />
+        <PrivateRoute exact
           path="/films/:id/review"
           render={({match}) => (
             <PageAddReview

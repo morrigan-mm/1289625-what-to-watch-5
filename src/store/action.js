@@ -4,7 +4,8 @@ export const ActionType = {
   RESET_MOVIES: `RESET_MOVIES`,
   LOAD_MOVIES: `LOAD_MOVIES`,
   LOAD_PROMO_MOVIE: `LOAD_PROMO_MOVIE`,
-  LOAD_MOVIE_REVIEWS: `LOAD_MOVIE_REVIEWS`
+  LOAD_MOVIE_REVIEWS: `LOAD_MOVIE_REVIEWS`,
+  AUTHORIZE: `AUTHORIZE`
 };
 
 export const ActionCreator = {
@@ -29,5 +30,9 @@ export const ActionCreator = {
   loadMovieReviews: (id, reviews) => ({
     type: ActionType.LOAD_MOVIE_REVIEWS,
     payload: {id, reviews}
+  }),
+  authorize: (info, errorCode) => ({
+    type: ActionType.AUTHORIZE,
+    payload: {errorCode, info}
   })
 };

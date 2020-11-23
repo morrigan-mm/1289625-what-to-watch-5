@@ -1,10 +1,22 @@
 import React from "react";
+import {connect} from "react-redux";
+import {Redirect} from "react-router-dom";
+import PropTypes from "prop-types";
+import {login} from "../../store/api-actions";
 import Footer from "../footer/footer";
 import Header from "../header/header";
 import HeaderPageTitle from "../header-page-title/header-page-title";
-import {PageType} from "../../constants";
+import {AuthorizationStatus, PageType} from "../../constants";
+import withLoginState from "../../hocs/with-login-state/with-login-state";
+import LoginForm from "../login-form/login-form";
 
-const PageLogin = () => {
+const WithLoginStateForm = withLoginState(LoginForm);
+
+const PageLogin = ({authorizationError, authorizationStatus, onLoginSubmit}) => {
+  if (authorizationStatus === AuthorizationStatus.AUTH) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <div className="user-page">
       <Header pageType={PageType.USER_PAGE}>
@@ -12,21 +24,7 @@ const PageLogin = () => {
       </Header>
 
       <div className="sign-in user-page__content">
-        <form action="#" className="sign-in__form">
-          <div className="sign-in__fields">
-            <div className="sign-in__field">
-              <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" />
-              <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
-            </div>
-            <div className="sign-in__field">
-              <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" />
-              <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
-            </div>
-          </div>
-          <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit">Sign in</button>
-          </div>
-        </form>
+        <WithLoginStateForm authorizationError={authorizationError} onSubmit={onLoginSubmit} />
       </div>
 
       <Footer />
@@ -34,4 +32,19 @@ const PageLogin = () => {
   );
 };
 
-export default PageLogin;
+PageLogin.propTypes = {
+  authorizationError: PropTypes.number,
+  authorizationStatus: PropTypes.string.isRequired,
+  onLoginSubmit: PropTypes.func.isRequired
+};
+
+const mapStateToProps = ({USER}) => ({
+  authorizationError: USER.errorCode,
+  authorizationStatus: USER.authorizationStatus
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoginSubmit: (email, password) => dispatch(login({email, password})),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageLogin);
