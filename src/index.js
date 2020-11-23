@@ -5,11 +5,14 @@ import {composeWithDevTools} from "redux-devtools-extension";
 import {Provider} from "react-redux";
 import thunk from "redux-thunk";
 import {createAPI} from "./services/api";
-import {fetchMovieList, fetchPromoMovie} from "./store/api-actions";
+import {checkAuthorization, fetchMovieList, fetchPromoMovie} from "./store/api-actions";
 import App from "./components/app/app";
 import rootReducer from "./store/reducers/root-reducer";
+import {ActionCreator} from "./store/action";
 
-const api = createAPI();
+const api = createAPI(
+    () => store.dispatch(ActionCreator.authorize(null))
+);
 
 const store = createStore(
     rootReducer,
@@ -18,7 +21,8 @@ const store = createStore(
 
 Promise.all([
   store.dispatch(fetchMovieList()),
-  store.dispatch(fetchPromoMovie())
+  store.dispatch(fetchPromoMovie()),
+  store.dispatch(checkAuthorization())
 ]).then(() => {
   ReactDOM.render(
       <Provider store={store}>
