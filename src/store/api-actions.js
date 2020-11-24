@@ -28,6 +28,10 @@ const convertFetchedReview = (review) => ({
   reviewDate: review.date
 });
 
+const getErrorCode = (error) => {
+  return error.response && error.response.code || -1;
+};
+
 export const fetchMovieList = () => (dispatch, _getState, api) => (
   api.get(`/films`)
     .then(({data}) => data.map((dataItem) => convertFetchedMovie(dataItem)))
@@ -58,7 +62,7 @@ export const checkAuthorization = () => (dispatch, _getState, api) => (
 export const login = ({email, password}) => (dispatch, _getState, api) => (
   api.post(`/login`, {email, password})
     .then(({data}) => dispatch(ActionCreator.authorize(data)))
-    .catch(({response}) => dispatch(ActionCreator.authorize(null, response.status)))
+    .catch((error) => dispatch(ActionCreator.authorize(null, getErrorCode(error))))
 );
 
 export const addReview = (filmId, {rate, text}) => (dispatch, _getState, api) => {
@@ -66,7 +70,7 @@ export const addReview = (filmId, {rate, text}) => (dispatch, _getState, api) =>
 
   return api.post(`/comments/${filmId}`, {rating: rate, comment: text})
     .then(({data}) => dispatch(ActionCreator.addReview.success(filmId, data)))
-    .catch(({response}) => dispatch(ActionCreator.addReview.failure(response.status)));
+    .catch((error) => dispatch(ActionCreator.addReview.failure(getErrorCode(error))));
 };
 
 export const changeFavorite = (filmId, status) => (dispatch, _getState, api) => {
@@ -74,5 +78,5 @@ export const changeFavorite = (filmId, status) => (dispatch, _getState, api) => 
 
   return api.post(`/favorite/${filmId}/${status}`)
     .then(({data}) => dispatch(ActionCreator.changeFavorite.success(convertFetchedMovie(data))))
-    .catch(({response}) => dispatch(ActionCreator.changeFavorite.failure(response.status)));
+    .catch((error) => dispatch(ActionCreator.changeFavorite.failure(getErrorCode(error))));
 };

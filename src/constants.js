@@ -1,3 +1,7 @@
+export const HttpCode = {
+  UNAUTHORIZED: 401
+};
+
 export const PageMovieTab = {
   OVERVIEW: `overview`,
   DETAILS: `details`,

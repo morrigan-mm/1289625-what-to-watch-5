@@ -1,3 +1,5 @@
+import {HttpCode} from "./constants";
+
 export const extend = (...args) => {
   return Object.assign({}, ...args);
 };
@@ -52,7 +54,7 @@ export const isActionFailure = (action) => {
 
 export const getErrorMessage = (errorCode) => {
   switch (errorCode) {
-    case 401:
+    case HttpCode.UNAUTHORIZED:
       return `Sorry, you have to be authorized for that!`;
     default:
       return `Oops! Something goes wrong... Please, try again.`;
