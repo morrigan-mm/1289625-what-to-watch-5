@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {ActionCreator} from "../../store/action";
@@ -7,57 +7,61 @@ import MovieList from "../movie-list/movie-list";
 import ShowMoreButton from "../show-more-button/show-more-button";
 import Footer from "../footer/footer";
 import {filmShape} from "../../prop-types";
-import PageMainHead from "../page-main-head/page-main-head";
+import MainHead from "../main-head/main-head";
 import {getGenre, getPromo, getFilmsCount, getGenreList, getFilteredFilms} from "../../store/selectors";
 import {changeFavorite} from "../../store/api-actions";
 import {MyListMovieStatus} from "../../constants";
 
 const MOVIES_PER_CHUNK = 8;
 
-class PageMain extends Component {
-  constructor(props) {
-    super(props);
-  }
+const PageMain = (props) => {
+  const {
+    promo,
+    films,
+    genres,
+    activeGenre,
+    onGenreSelect,
+    onPlayButtonClick,
+    onShowMoreButtonClick,
+    hasMoreFilms,
+    isFavoriteChanging,
+    changeFavoriteError,
+    onMyListButtonClick,
+    onUnmount
+  } = props;
 
-  componentWillUnmount() {
-    this.props.onComponentWillUnmount();
-  }
+  useEffect(() => {
+    return () => {
+      onUnmount();
+    };
+  }, []);
 
-  render() {
-    const {
-      promo,
-      films,
-      genres,
-      activeGenre,
-      onGenreSelect,
-      onPlayButtonClick,
-      onShowMoreButtonClick,
-      hasMoreFilms,
-      isFavoriteChanging,
-      onMyListButtonClick
-    } = this.props;
+  return (
+    <>
+      <MainHead
+        changeFavoriteError={changeFavoriteError}
+        myListButtonDisabled={isFavoriteChanging}
+        onMyListButtonClick={onMyListButtonClick}
+        onPlayButtonClick={onPlayButtonClick}
+        promo={promo}
+      />
 
-    return (
-      <>
-        <PageMainHead myListButtonDisabled={isFavoriteChanging} onMyListButtonClick={onMyListButtonClick} onPlayButtonClick={onPlayButtonClick} promo={promo} />
+      <div className="page-content">
+        <section className="catalog">
+          <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <div className="page-content">
-          <section className="catalog">
-            <h2 className="catalog__title visually-hidden">Catalog</h2>
+          <GenreList genres={genres} activeGenre={activeGenre} onGenreClick={onGenreSelect} />
 
-            <GenreList genres={genres} activeGenre={activeGenre} onGenreClick={onGenreSelect} />
+          <MovieList films={films} />
 
-            <MovieList films={films} />
+          {hasMoreFilms && <ShowMoreButton onClick={onShowMoreButtonClick} />}
+        </section>
 
-            {hasMoreFilms && <ShowMoreButton onClick={onShowMoreButtonClick} />}
-          </section>
-
-          <Footer />
-        </div>
-      </>
-    );
-  }
-}
+        <Footer />
+      </div>
+    </>
+  );
+};
 
 PageMain.propTypes = {
   promo: filmShape.isRequired,
@@ -65,11 +69,12 @@ PageMain.propTypes = {
   genres: PropTypes.arrayOf(PropTypes.string).isRequired,
   activeGenre: PropTypes.string.isRequired,
   onGenreSelect: PropTypes.func.isRequired,
-  onComponentWillUnmount: PropTypes.func.isRequired,
+  onUnmount: PropTypes.func.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
   onShowMoreButtonClick: PropTypes.func.isRequired,
   hasMoreFilms: PropTypes.bool.isRequired,
   isFavoriteChanging: PropTypes.bool.isRequired,
+  changeFavoriteError: PropTypes.number.isRequired,
   onMyListButtonClick: PropTypes.func.isRequired
 };
 
@@ -83,21 +88,23 @@ const mapStateToProps = (state) => {
     genres: getGenreList(state),
     hasMoreFilms: films.length > filmsCount,
     promo: getPromo(state),
-    isFavoriteChanging: state.OPERATIONS.changeFavoriteLoading
+    isFavoriteChanging: state.OPERATIONS.changeFavoriteLoading,
+    changeFavoriteError: state.OPERATIONS.changeFavoriteError
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onGenreSelect(genre) {
+  onGenreSelect: (genre) => {
     dispatch(ActionCreator.filterByGenre(genre));
   },
-  onShowMoreButtonClick() {
+  onShowMoreButtonClick: () => {
     dispatch(ActionCreator.setNextMoviesChunk());
   },
-  onComponentWillUnmount() {
+  onUnmount: () => {
+    dispatch(ActionCreator.changeFavorite.reset());
     dispatch(ActionCreator.resetMovies());
   },
-  onMyListButtonClick(promo) {
+  onMyListButtonClick: (promo) => {
     dispatch(changeFavorite(promo.id, promo.addedToMyList ? MyListMovieStatus.DELETE : MyListMovieStatus.ADD));
   }
 });

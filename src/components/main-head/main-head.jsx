@@ -2,11 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import {PageType} from "../../constants";
 import {filmShape} from "../../prop-types";
+import {getErrorMessage} from "../../utils";
 import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
 import ToggleMyListMovieButton from "../toggle-my-list-movie-button/toggle-my-list-movie-button";
 
-const PageMainHead = ({onPlayButtonClick, myListButtonDisabled, onMyListButtonClick, promo}) => {
+const MainHead = ({onPlayButtonClick, myListButtonDisabled, onMyListButtonClick, changeFavoriteError, promo}) => {
   const {title, poster, genre, backgroundImage, releaseDate} = promo;
 
   return (
@@ -48,6 +49,7 @@ const PageMainHead = ({onPlayButtonClick, myListButtonDisabled, onMyListButtonCl
                 onClick={() => onMyListButtonClick(promo)}
               />
             </div>
+            {changeFavoriteError ? <p>{getErrorMessage(changeFavoriteError)}</p> : null}
           </div>
         </div>
       </div>
@@ -55,11 +57,12 @@ const PageMainHead = ({onPlayButtonClick, myListButtonDisabled, onMyListButtonCl
   );
 };
 
-PageMainHead.propTypes = {
+MainHead.propTypes = {
   onPlayButtonClick: PropTypes.func.isRequired,
   promo: filmShape.isRequired,
   myListButtonDisabled: PropTypes.bool.isRequired,
+  changeFavoriteError: PropTypes.number.isRequired,
   onMyListButtonClick: PropTypes.func.isRequired
 };
 
-export default React.memo(PageMainHead);
+export default React.memo(MainHead);
