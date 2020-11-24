@@ -13,12 +13,17 @@ const withReviewState = (Component) => {
         isRated: false
       };
 
+      this.handleRateClick = this.handleRateClick.bind(this);
       this.handleRateChange = this.handleRateChange.bind(this);
       this.handleTextChange = this.handleTextChange.bind(this);
     }
 
+    handleRateClick() {
+      this.setState({isRated: true});
+    }
+
     handleRateChange(rate) {
-      this.setState({rate, isRated: true});
+      this.setState({rate});
     }
 
     handleTextChange(text) {
@@ -30,6 +35,7 @@ const withReviewState = (Component) => {
         <Component
           {...this.props}
           {...this.state}
+          onRateClick={this.handleRateClick}
           onRateChange={this.handleRateChange}
           onTextChange={this.handleTextChange}
         />

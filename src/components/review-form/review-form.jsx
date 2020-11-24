@@ -1,15 +1,25 @@
 import React, {Fragment} from "react";
 import PropTypes from "prop-types";
+import {getErrorMessage} from "../../utils";
 
 const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 400;
 
 const starRates = [1, 2, 3, 4, 5];
 
-const ReviewForm = (props) => {
-  const {rate, isRated, text, onRateChange, onTextChange} = props;
+const renderErrorMessage = (errorCode) => (
+  <p
+    className="error-message"
+    style={{color: `red`}}
+  >
+    {getErrorMessage(errorCode)}
+  </p>
+);
 
-  const submitDisabled = !isRated || text.length < MIN_REVIEW_LENGTH || text.length > MAX_REVIEW_LENGTH;
+const ReviewForm = (props) => {
+  const {disabled, rate, isRated, text, onRateClick, onRateChange, onTextChange, onSubmit, addReviewError} = props;
+
+  const submitDisabled = disabled || !isRated || text.length < MIN_REVIEW_LENGTH || text.length > MAX_REVIEW_LENGTH;
 
   return (
     <form
@@ -17,8 +27,10 @@ const ReviewForm = (props) => {
       className="add-review__form"
       onSubmit={(evt) => {
         evt.preventDefault();
+        onSubmit({rate, text});
       }}
     >
+      {addReviewError ? renderErrorMessage(addReviewError) : null}
       <div className="rating">
         <div className="rating__stars">
           {starRates.map((starRate) => {
@@ -33,7 +45,9 @@ const ReviewForm = (props) => {
                   name="rating"
                   value={value}
                   checked={rate === value}
+                  onClick={onRateClick}
                   onChange={(evt) => onRateChange(evt.target.value)}
+                  disabled={disabled}
                 />
                 <label
                   className="rating__label"
@@ -55,6 +69,7 @@ const ReviewForm = (props) => {
           placeholder="Review text"
           onChange={(evt) => onTextChange(evt.target.value)}
           value={text}
+          disabled={disabled}
         />
         <div className="add-review__submit">
           <button
@@ -71,11 +86,15 @@ const ReviewForm = (props) => {
 };
 
 ReviewForm.propTypes = {
+  disabled: PropTypes.bool.isRequired,
   rate: PropTypes.string.isRequired,
   isRated: PropTypes.bool.isRequired,
   text: PropTypes.string.isRequired,
+  onRateClick: PropTypes.func.isRequired,
   onRateChange: PropTypes.func.isRequired,
-  onTextChange: PropTypes.func.isRequired
+  onTextChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  addReviewError: PropTypes.number.isRequired
 };
 
 export default ReviewForm;

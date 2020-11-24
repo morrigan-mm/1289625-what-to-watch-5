@@ -11,9 +11,11 @@ import {filmShape, reviewShape} from "../../prop-types";
 import PageMovieReviews from "../page-movie-reviews/page-movie-reviews";
 import PageMovieDetails from "../page-movie-details/page-movie-details";
 import PageMovieOverview from "../page-movie-overview/page-movie-overview";
-import {PageMovieTab, PageType} from "../../constants";
-import {fetchMovieReviews} from "../../store/api-actions";
+import {AuthorizationStatus, PageMovieTab, PageType, MyListMovieStatus} from "../../constants";
+import {changeFavorite, fetchMovieReviews} from "../../store/api-actions";
 import {filterSimilarMovies} from "../../movie-filter";
+import PageNotFound from "../page-not-found/page-not-found";
+import ToggleMyListMovieButton from "../toggle-my-list-movie-button/toggle-my-list-movie-button";
 
 class PageMovie extends PureComponent {
   constructor(props) {
@@ -21,7 +23,9 @@ class PageMovie extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.dispatchLoadReviews();
+    if (this.props.film) {
+      this.props.dispatchLoadReviews();
+    }
   }
 
   renderTab(tab, caption) {
@@ -50,7 +54,11 @@ class PageMovie extends PureComponent {
   }
 
   render() {
-    const {films, film, onPlayButtonClick} = this.props;
+    if (!this.props.film) {
+      return <PageNotFound />;
+    }
+
+    const {films, film, onPlayButtonClick, onMyListButtonClick, authorizationStatus, isFavoriteChanging} = this.props;
     const {title, genre, releaseDate, poster, backgroundImage, backgroundColor} = film;
 
     return (
@@ -82,13 +90,18 @@ class PageMovie extends PureComponent {
                     </svg>
                     <span>Play</span>
                   </button>
-                  <button className="btn btn--list movie-card__button" type="button">
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use href="#add"></use>
-                    </svg>
-                    <span>My list</span>
-                  </button>
-                  <Link to={`/films/${film.id}/review`} className="btn movie-card__button">Add review</Link>
+
+                  <ToggleMyListMovieButton
+                    disabled={isFavoriteChanging}
+                    isFavorite={film.addedToMyList}
+                    onClick={() => onMyListButtonClick(film)}
+                  />
+
+                  {authorizationStatus === AuthorizationStatus.AUTH &&
+                    <Link to={`/films/${film.id}/review`} className="btn movie-card__button">
+                      Add review
+                    </Link>
+                  }
                 </div>
               </div>
             </div>
@@ -131,24 +144,30 @@ class PageMovie extends PureComponent {
 
 PageMovie.propTypes = {
   films: PropTypes.arrayOf(filmShape).isRequired,
-  film: filmShape.isRequired,
+  film: filmShape,
   filmId: PropTypes.number.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
   dispatchLoadReviews: PropTypes.func.isRequired,
   reviews: PropTypes.arrayOf(reviewShape).isRequired,
   activeTab: PropTypes.oneOf(Object.values(PageMovieTab)).isRequired,
-  onPlayButtonClick: PropTypes.func.isRequired
+  isFavoriteChanging: PropTypes.bool.isRequired,
+  onPlayButtonClick: PropTypes.func.isRequired,
+  onMyListButtonClick: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({DATA}, ownProps) => {
+const mapStateToProps = ({DATA, USER, OPERATIONS}, ownProps) => {
   const film = DATA.films.find(({id}) => id === ownProps.filmId);
-  const films = filterSimilarMovies(DATA.films, film.genre, film.id);
-  const reviews = DATA.reviews[film.id] || [];
+  const films = film && filterSimilarMovies(DATA.films, film.genre, film.id) || [];
+  const reviews = film && DATA.reviews[film.id] || [];
+  const authorizationStatus = USER.authorizationStatus;
+  const isFavoriteChanging = OPERATIONS.changeFavoriteLoading;
 
-  return {film, films, reviews};
+  return {film, films, reviews, authorizationStatus, isFavoriteChanging};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  dispatchLoadReviews: () => dispatch(fetchMovieReviews(ownProps.filmId))
+  dispatchLoadReviews: () => dispatch(fetchMovieReviews(ownProps.filmId)),
+  onMyListButtonClick: (film) => dispatch(changeFavorite(ownProps.filmId, film.addedToMyList ? MyListMovieStatus.DELETE : MyListMovieStatus.ADD))
 });
 
 export {PageMovie};

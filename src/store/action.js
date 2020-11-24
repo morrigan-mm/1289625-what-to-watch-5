@@ -5,7 +5,15 @@ export const ActionType = {
   LOAD_MOVIES: `LOAD_MOVIES`,
   LOAD_PROMO_MOVIE: `LOAD_PROMO_MOVIE`,
   LOAD_MOVIE_REVIEWS: `LOAD_MOVIE_REVIEWS`,
-  AUTHORIZE: `AUTHORIZE`
+  AUTHORIZE: `AUTHORIZE`,
+  ADD_REVIEW_REQUEST: `ADD_REVIEW_REQUEST`,
+  ADD_REVIEW_SUCCESS: `ADD_REVIEW_SUCCESS`,
+  ADD_REVIEW_FAILURE: `ADD_REVIEW_FAILURE`,
+  ADD_REVIEW_RESET: `ADD_REVIEW_RESET`,
+  CHANGE_FAVORITE_REQUEST: `CHANGE_FAVORITE_REQUEST`,
+  CHANGE_FAVORITE_SUCCESS: `CHANGE_FAVORITE_SUCCESS`,
+  CHANGE_FAVORITE_FAILURE: `CHANGE_FAVORITE_FAILURE`,
+  CHANGE_FAVORITE_RESET: `CHANGE_FAVORITE_RESET`
 };
 
 export const ActionCreator = {
@@ -34,5 +42,39 @@ export const ActionCreator = {
   authorize: (info, errorCode) => ({
     type: ActionType.AUTHORIZE,
     payload: {errorCode, info}
-  })
+  }),
+  addReview: {
+    request: (id, review) => ({
+      type: ActionType.ADD_REVIEW_REQUEST,
+      payload: {id, review}
+    }),
+    success: (id, reviews) => ({
+      type: ActionType.ADD_REVIEW_SUCCESS,
+      payload: {id, reviews}
+    }),
+    failure: (errorCode) => ({
+      type: ActionType.ADD_REVIEW_FAILURE,
+      payload: {errorCode}
+    }),
+    reset: () => ({
+      type: ActionType.ADD_REVIEW_RESET
+    })
+  },
+  changeFavorite: {
+    request: (id, status) => ({
+      type: ActionType.CHANGE_FAVORITE_REQUEST,
+      payload: {id, status}
+    }),
+    success: (film) => ({
+      type: ActionType.CHANGE_FAVORITE_SUCCESS,
+      payload: film
+    }),
+    failure: (errorCode) => ({
+      type: ActionType.CHANGE_FAVORITE_FAILURE,
+      payload: {errorCode}
+    }),
+    reset: () => ({
+      type: ActionType.CHANGE_FAVORITE_RESET
+    })
+  }
 };
