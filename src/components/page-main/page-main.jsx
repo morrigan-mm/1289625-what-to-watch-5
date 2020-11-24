@@ -9,6 +9,8 @@ import Footer from "../footer/footer";
 import {filmShape} from "../../prop-types";
 import PageMainHead from "../page-main-head/page-main-head";
 import {getGenre, getPromo, getFilmsCount, getGenreList, getFilteredFilms} from "../../store/selectors";
+import {changeFavorite} from "../../store/api-actions";
+import {MyListMovieStatus} from "../../constants";
 
 const MOVIES_PER_CHUNK = 8;
 
@@ -30,12 +32,14 @@ class PageMain extends Component {
       onGenreSelect,
       onPlayButtonClick,
       onShowMoreButtonClick,
-      hasMoreFilms
+      hasMoreFilms,
+      isFavoriteChanging,
+      onMyListButtonClick
     } = this.props;
 
     return (
       <>
-        <PageMainHead onPlayButtonClick={onPlayButtonClick} promo={promo} />
+        <PageMainHead myListButtonDisabled={isFavoriteChanging} onMyListButtonClick={onMyListButtonClick} onPlayButtonClick={onPlayButtonClick} promo={promo} />
 
         <div className="page-content">
           <section className="catalog">
@@ -64,7 +68,9 @@ PageMain.propTypes = {
   onComponentWillUnmount: PropTypes.func.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
   onShowMoreButtonClick: PropTypes.func.isRequired,
-  hasMoreFilms: PropTypes.bool.isRequired
+  hasMoreFilms: PropTypes.bool.isRequired,
+  isFavoriteChanging: PropTypes.bool.isRequired,
+  onMyListButtonClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -76,7 +82,8 @@ const mapStateToProps = (state) => {
     films: films.slice(0, filmsCount),
     genres: getGenreList(state),
     hasMoreFilms: films.length > filmsCount,
-    promo: getPromo(state)
+    promo: getPromo(state),
+    isFavoriteChanging: state.OPERATIONS.changeFavoriteLoading
   };
 };
 
@@ -89,6 +96,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onComponentWillUnmount() {
     dispatch(ActionCreator.resetMovies());
+  },
+  onMyListButtonClick(promo) {
+    dispatch(changeFavorite(promo.id, promo.addedToMyList ? MyListMovieStatus.DELETE : MyListMovieStatus.ADD));
   }
 });
 

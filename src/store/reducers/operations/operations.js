@@ -3,7 +3,9 @@ import {ActionType} from "../../action";
 
 const InitialState = {
   addReviewLoading: false,
-  addReviewError: false
+  addReviewError: false,
+  changeFavoriteLoading: false,
+  changeFavoriteError: false,
 };
 
 const operations = (state = InitialState, action) => {
@@ -21,6 +23,20 @@ const operations = (state = InitialState, action) => {
       return extend(state, {
         addReviewLoading: false,
         addReviewError: true
+      });
+    case ActionType.CHANGE_FAVORITE_REQUEST:
+      return extend(state, {
+        changeFavoriteLoading: true,
+        changeFavoriteError: false
+      });
+    case ActionType.CHANGE_FAVORITE_SUCCESS:
+      return extend(state, {
+        changeFavoriteLoading: false
+      });
+    case ActionType.CHANGE_FAVORITE_FAILURE:
+      return extend(state, {
+        changeFavoriteLoading: false,
+        changeFavoriteError: true
       });
     default:
       return state;

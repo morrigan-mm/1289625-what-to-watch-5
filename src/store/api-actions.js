@@ -63,7 +63,16 @@ export const login = ({email, password}) => (dispatch, _getState, api) => (
 
 export const addReview = (filmId, {rate, text}) => (dispatch, _getState, api) => {
   dispatch(ActionCreator.addReview.request(filmId, {rate, text}));
+
   return api.post(`/comments/${filmId}`, {rating: rate, comment: text})
     .then(({data}) => dispatch(ActionCreator.addReview.success(filmId, data)))
     .catch(({response}) => dispatch(ActionCreator.addReview.failure(response.status)));
+};
+
+export const changeFavorite = (filmId, status) => (dispatch, _getState, api) => {
+  dispatch(ActionCreator.changeFavorite.request(filmId, status));
+
+  return api.post(`/favorite/${filmId}/${status}`)
+    .then(({data}) => dispatch(ActionCreator.changeFavorite.success(convertFetchedMovie(data))))
+    .catch(({response}) => dispatch(ActionCreator.changeFavorite.failure(response.status)));
 };

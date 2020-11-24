@@ -8,7 +8,10 @@ export const ActionType = {
   AUTHORIZE: `AUTHORIZE`,
   ADD_REVIEW_REQUEST: `ADD_REVIEW_REQUEST`,
   ADD_REVIEW_SUCCESS: `ADD_REVIEW_SUCCESS`,
-  ADD_REVIEW_FAILURE: `ADD_REVIEW_FAILURE`
+  ADD_REVIEW_FAILURE: `ADD_REVIEW_FAILURE`,
+  CHANGE_FAVORITE_REQUEST: `CHANGE_FAVORITE_REQUEST`,
+  CHANGE_FAVORITE_SUCCESS: `CHANGE_FAVORITE_SUCCESS`,
+  CHANGE_FAVORITE_FAILURE: `CHANGE_FAVORITE_FAILURE`
 };
 
 export const ActionCreator = {
@@ -49,6 +52,20 @@ export const ActionCreator = {
     }),
     failure: (errorCode) => ({
       type: ActionType.ADD_REVIEW_FAILURE,
+      payload: {errorCode}
+    })
+  },
+  changeFavorite: {
+    request: (id, status) => ({
+      type: ActionType.CHANGE_FAVORITE_REQUEST,
+      payload: {id, status}
+    }),
+    success: (film) => ({
+      type: ActionType.CHANGE_FAVORITE_SUCCESS,
+      payload: film
+    }),
+    failure: (errorCode) => ({
+      type: ActionType.CHANGE_FAVORITE_FAILURE,
       payload: {errorCode}
     })
   }

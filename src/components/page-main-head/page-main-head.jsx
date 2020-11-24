@@ -4,8 +4,9 @@ import {PageType} from "../../constants";
 import {filmShape} from "../../prop-types";
 import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
+import ToggleMyListMovieButton from "../toggle-my-list-movie-button/toggle-my-list-movie-button";
 
-const PageMainHead = ({onPlayButtonClick, promo}) => {
+const PageMainHead = ({onPlayButtonClick, myListButtonDisabled, onMyListButtonClick, promo}) => {
   const {title, poster, genre, backgroundImage, releaseDate} = promo;
 
   return (
@@ -40,12 +41,12 @@ const PageMainHead = ({onPlayButtonClick, promo}) => {
                 </svg>
                 <span>Play</span>
               </button>
-              <button className="btn btn--list movie-card__button" type="button">
-                <svg viewBox="0 0 19 20" width="19" height="20">
-                  <use href="#add"></use>
-                </svg>
-                <span>My list</span>
-              </button>
+
+              <ToggleMyListMovieButton
+                disabled={myListButtonDisabled}
+                isFavorite={promo.addedToMyList}
+                onClick={() => onMyListButtonClick(promo)}
+              />
             </div>
           </div>
         </div>
@@ -56,7 +57,9 @@ const PageMainHead = ({onPlayButtonClick, promo}) => {
 
 PageMainHead.propTypes = {
   onPlayButtonClick: PropTypes.func.isRequired,
-  promo: filmShape.isRequired
+  promo: filmShape.isRequired,
+  myListButtonDisabled: PropTypes.bool.isRequired,
+  onMyListButtonClick: PropTypes.func.isRequired
 };
 
 export default React.memo(PageMainHead);
