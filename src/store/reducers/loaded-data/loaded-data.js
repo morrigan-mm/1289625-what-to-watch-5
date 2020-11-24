@@ -18,6 +18,7 @@ const loadedData = (state = initialState, action) => {
         promo: action.payload
       });
     case ActionType.LOAD_MOVIE_REVIEWS:
+    case ActionType.ADD_REVIEW_SUCCESS:
       return extend(state, {
         reviews: extend(state.reviews, {
           [action.payload.id]: action.payload.reviews

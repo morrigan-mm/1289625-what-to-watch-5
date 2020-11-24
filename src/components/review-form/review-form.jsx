@@ -7,9 +7,9 @@ const MAX_REVIEW_LENGTH = 400;
 const starRates = [1, 2, 3, 4, 5];
 
 const ReviewForm = (props) => {
-  const {rate, isRated, text, onRateChange, onTextChange} = props;
+  const {disabled, rate, isRated, text, onRateChange, onTextChange, onSubmit} = props;
 
-  const submitDisabled = !isRated || text.length < MIN_REVIEW_LENGTH || text.length > MAX_REVIEW_LENGTH;
+  const submitDisabled = disabled || !isRated || text.length < MIN_REVIEW_LENGTH || text.length > MAX_REVIEW_LENGTH;
 
   return (
     <form
@@ -17,6 +17,7 @@ const ReviewForm = (props) => {
       className="add-review__form"
       onSubmit={(evt) => {
         evt.preventDefault();
+        onSubmit({rate, text});
       }}
     >
       <div className="rating">
@@ -34,6 +35,7 @@ const ReviewForm = (props) => {
                   value={value}
                   checked={rate === value}
                   onChange={(evt) => onRateChange(evt.target.value)}
+                  disabled={disabled}
                 />
                 <label
                   className="rating__label"
@@ -55,6 +57,7 @@ const ReviewForm = (props) => {
           placeholder="Review text"
           onChange={(evt) => onTextChange(evt.target.value)}
           value={text}
+          disabled={disabled}
         />
         <div className="add-review__submit">
           <button
@@ -71,11 +74,13 @@ const ReviewForm = (props) => {
 };
 
 ReviewForm.propTypes = {
+  disabled: PropTypes.bool.isRequired,
   rate: PropTypes.string.isRequired,
   isRated: PropTypes.bool.isRequired,
   text: PropTypes.string.isRequired,
   onRateChange: PropTypes.func.isRequired,
-  onTextChange: PropTypes.func.isRequired
+  onTextChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default ReviewForm;

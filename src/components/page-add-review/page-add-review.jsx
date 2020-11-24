@@ -4,13 +4,15 @@ import {connect} from "react-redux";
 import Breadcrumbs from "../breadcrumbs/breadcrumbs";
 import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
+import history from "../../history";
 import {filmShape} from "../../prop-types";
 import ReviewForm from "../review-form/review-form";
 import withReviewState from "../../hocs/with-review-state/with-review-state";
+import {addReview} from "../../store/api-actions";
 
 const WithReviewStateForm = withReviewState(ReviewForm);
 
-const PageAddReview = ({film}) => {
+const PageAddReview = ({film, onReviewSubmit, isLoading}) => {
   const {title, poster} = film;
   const breadcrumbs = [{text: title, link: `/films/${film.id}`}, {text: `Add Review`}];
 
@@ -34,7 +36,7 @@ const PageAddReview = ({film}) => {
       </div>
 
       <div className="add-review">
-        <WithReviewStateForm />
+        <WithReviewStateForm disabled={isLoading} onSubmit={onReviewSubmit} />
       </div>
 
     </section>
@@ -43,12 +45,19 @@ const PageAddReview = ({film}) => {
 
 PageAddReview.propTypes = {
   film: filmShape,
-  filmId: PropTypes.number.isRequired
+  filmId: PropTypes.number.isRequired,
+  onReviewSubmit: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = ({DATA}, ownProps) => ({
-  film: DATA.films.find(({id}) => id === ownProps.filmId)
+const mapStateToProps = ({DATA, OPERATIONS}, ownProps) => ({
+  film: DATA.films.find(({id}) => id === ownProps.filmId),
+  isLoading: OPERATIONS.addReviewLoading
+});
+
+const mapDispatchToProps = (dispatch, {filmId}) => ({
+  onReviewSubmit: (review) => dispatch(addReview(filmId, review)).then(() => history.replace(`/films/${filmId}`))
 });
 
 export {PageAddReview};
-export default connect(mapStateToProps)(PageAddReview);
+export default connect(mapStateToProps, mapDispatchToProps)(PageAddReview);

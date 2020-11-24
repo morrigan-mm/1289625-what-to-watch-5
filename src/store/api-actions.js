@@ -60,3 +60,10 @@ export const login = ({email, password}) => (dispatch, _getState, api) => (
     .then(({data}) => dispatch(ActionCreator.authorize(data)))
     .catch(({response}) => dispatch(ActionCreator.authorize(null, response.status)))
 );
+
+export const addReview = (filmId, {rate, text}) => (dispatch, _getState, api) => {
+  dispatch(ActionCreator.addReview.request(filmId, {rate, text}));
+  return api.post(`/comments/${filmId}`, {rating: rate, comment: text})
+    .then(({data}) => dispatch(ActionCreator.addReview.success(filmId, data)))
+    .catch(({response}) => dispatch(ActionCreator.addReview.failure(response.status)));
+};
