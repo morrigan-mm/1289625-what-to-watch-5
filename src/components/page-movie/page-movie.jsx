@@ -3,19 +3,20 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
-import MovieList from "../movie-list/movie-list";
-import Footer from "../footer/footer";
-import Header from "../header/header";
-import HeaderUserBlock from "../header-user-block/header-user-block";
-import {filmShape, reviewShape} from "../../prop-types";
-import PageMovieReviews from "../page-movie-reviews/page-movie-reviews";
-import PageMovieDetails from "../page-movie-details/page-movie-details";
-import PageMovieOverview from "../page-movie-overview/page-movie-overview";
 import {AuthorizationStatus, PageMovieTab, PageType, MyListMovieStatus} from "../../constants";
 import {changeFavorite, fetchMovieReviews} from "../../store/api-actions";
 import {filterSimilarMovies} from "../../movie-filter";
+import {filmShape, reviewShape} from "../../prop-types";
+import Footer from "../footer/footer";
+import Header from "../header/header";
+import HeaderUserBlock from "../header-user-block/header-user-block";
+import MovieList from "../movie-list/movie-list";
+import PageMovieReviews from "../page-movie-reviews/page-movie-reviews";
+import PageMovieDetails from "../page-movie-details/page-movie-details";
+import PageMovieOverview from "../page-movie-overview/page-movie-overview";
 import PageNotFound from "../page-not-found/page-not-found";
 import ToggleMyListMovieButton from "../toggle-my-list-movie-button/toggle-my-list-movie-button";
+import PlayMovieButton from "../play-movie-button/play-movie-button";
 
 class PageMovie extends PureComponent {
   constructor(props) {
@@ -58,8 +59,23 @@ class PageMovie extends PureComponent {
       return <PageNotFound />;
     }
 
-    const {films, film, onPlayButtonClick, onMyListButtonClick, authorizationStatus, isFavoriteChanging} = this.props;
-    const {title, genre, releaseDate, poster, backgroundImage, backgroundColor} = film;
+    const {
+      films,
+      film,
+      onPlayButtonClick,
+      onMyListButtonClick,
+      authorizationStatus,
+      isFavoriteChanging
+    } = this.props;
+
+    const {
+      title,
+      genre,
+      releaseDate,
+      poster,
+      backgroundImage,
+      backgroundColor
+    } = film;
 
     return (
       <>
@@ -84,12 +100,7 @@ class PageMovie extends PureComponent {
                 </p>
 
                 <div className="movie-card__buttons">
-                  <button className="btn btn--play movie-card__button" type="button" onClick={() => onPlayButtonClick(film.id)}>
-                    <svg viewBox="0 0 19 19" width="19" height="19">
-                      <use href="#play-s"></use>
-                    </svg>
-                    <span>Play</span>
-                  </button>
+                  <PlayMovieButton onClick={() => onPlayButtonClick(film.id)} />
 
                   <ToggleMyListMovieButton
                     disabled={isFavoriteChanging}
@@ -166,8 +177,14 @@ const mapStateToProps = ({DATA, USER, OPERATIONS}, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  dispatchLoadReviews: () => dispatch(fetchMovieReviews(ownProps.filmId)),
-  onMyListButtonClick: (film) => dispatch(changeFavorite(ownProps.filmId, film.addedToMyList ? MyListMovieStatus.DELETE : MyListMovieStatus.ADD))
+  dispatchLoadReviews: () => {
+    dispatch(fetchMovieReviews(ownProps.filmId));
+  },
+  onMyListButtonClick: (film) => {
+    const status = film.addedToMyList ? MyListMovieStatus.DELETE : MyListMovieStatus.ADD;
+
+    dispatch(changeFavorite(ownProps.filmId, status));
+  }
 });
 
 export {PageMovie};

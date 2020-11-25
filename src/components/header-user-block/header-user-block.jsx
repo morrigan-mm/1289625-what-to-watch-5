@@ -4,9 +4,7 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {AuthorizationStatus} from "../../constants";
 
-const HeaderUserBlock = (props) => {
-  const {authorizationStatus, avatar} = props;
-
+const HeaderUserBlock = ({authorizationStatus, avatar}) => {
   return (
     <div className="user-block">
       {authorizationStatus === AuthorizationStatus.AUTH ?

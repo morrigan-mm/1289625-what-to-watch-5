@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import React from "react";
-import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import {PageType} from "../../constants";
+import Logo from "../logo/logo";
 
 const Header = ({children, pageType}) => {
   return (
@@ -12,13 +12,7 @@ const Header = ({children, pageType}) => {
         'user-page__head': pageType === PageType.USER_PAGE,
       })}
     >
-      <div className="logo">
-        <Link to="/" className="logo__link">
-          <span className="logo__letter logo__letter--1">W</span>
-          <span className="logo__letter logo__letter--2">T</span>
-          <span className="logo__letter logo__letter--3">W</span>
-        </Link>
-      </div>
+      <Logo />
       {children}
     </header>
   );

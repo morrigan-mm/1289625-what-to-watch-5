@@ -44,7 +44,9 @@ const mapStateToProps = ({USER}) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onLoginSubmit: (email, password) => dispatch(login({email, password}))
+  onLoginSubmit: (email, password) => {
+    dispatch(login({email, password}));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageLogin);

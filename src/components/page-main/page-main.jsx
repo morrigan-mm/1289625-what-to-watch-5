@@ -68,13 +68,13 @@ PageMain.propTypes = {
   films: PropTypes.arrayOf(filmShape).isRequired,
   genres: PropTypes.arrayOf(PropTypes.string).isRequired,
   activeGenre: PropTypes.string.isRequired,
+  hasMoreFilms: PropTypes.bool.isRequired,
+  changeFavoriteError: PropTypes.number.isRequired,
+  isFavoriteChanging: PropTypes.bool.isRequired,
   onGenreSelect: PropTypes.func.isRequired,
   onUnmount: PropTypes.func.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
   onShowMoreButtonClick: PropTypes.func.isRequired,
-  hasMoreFilms: PropTypes.bool.isRequired,
-  isFavoriteChanging: PropTypes.bool.isRequired,
-  changeFavoriteError: PropTypes.number.isRequired,
   onMyListButtonClick: PropTypes.func.isRequired
 };
 

@@ -1,21 +1,23 @@
 import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import Breadcrumbs from "../breadcrumbs/breadcrumbs";
-import Header from "../header/header";
-import HeaderUserBlock from "../header-user-block/header-user-block";
+import {ActionCreator} from "../../store/action";
+import {addReview} from "../../store/api-actions";
+import {isActionSuccess} from "../../utils";
 import history from "../../history";
 import {filmShape} from "../../prop-types";
 import ReviewForm from "../review-form/review-form";
 import withReviewState from "../../hocs/with-review-state/with-review-state";
-import {ActionCreator} from "../../store/action";
-import {addReview} from "../../store/api-actions";
-import {isActionFailure} from "../../utils";
+import Breadcrumbs from "../breadcrumbs/breadcrumbs";
+import Header from "../header/header";
+import HeaderUserBlock from "../header-user-block/header-user-block";
 
 const WithReviewStateForm = withReviewState(ReviewForm);
 
-const PageAddReview = ({film, onReviewSubmit, isLoading, addReviewError, onUnmount}) => {
+const PageAddReview = (props) => {
+  const {film, onReviewSubmit, isLoading, addReviewError, onUnmount} = props;
   const {title, poster} = film;
+
   const breadcrumbs = [{text: title, link: `/films/${film.id}`}, {text: `Add Review`}];
 
   useEffect(() => {
@@ -54,10 +56,10 @@ const PageAddReview = ({film, onReviewSubmit, isLoading, addReviewError, onUnmou
 PageAddReview.propTypes = {
   film: filmShape,
   filmId: PropTypes.number.isRequired,
-  onReviewSubmit: PropTypes.func.isRequired,
-  onUnmount: PropTypes.func.isRequired,
+  addReviewError: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  addReviewError: PropTypes.number.isRequired
+  onReviewSubmit: PropTypes.func.isRequired,
+  onUnmount: PropTypes.func.isRequired
 };
 
 const mapStateToProps = ({DATA, OPERATIONS}, ownProps) => ({
@@ -67,8 +69,17 @@ const mapStateToProps = ({DATA, OPERATIONS}, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, {filmId}) => ({
-  onReviewSubmit: (review) => dispatch(addReview(filmId, review)).then((action) => !isActionFailure(action) && history.push(`/films/${filmId}`)),
-  onUnmount: () => dispatch(ActionCreator.addReview.reset())
+  onReviewSubmit: (review) => {
+    dispatch(addReview(filmId, review))
+      .then((action) => {
+        if (isActionSuccess(action)) {
+          history.push(`/films/${filmId}`);
+        }
+      });
+  },
+  onUnmount: () => {
+    dispatch(ActionCreator.addReview.reset());
+  }
 });
 
 export {PageAddReview};
