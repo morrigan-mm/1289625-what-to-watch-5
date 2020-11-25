@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import {getErrorMessage} from "../../utils";
@@ -5,7 +6,7 @@ import {getErrorMessage} from "../../utils";
 const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 400;
 
-const starRates = [1, 2, 3, 4, 5];
+const starRates = [0, 1, 2, 3, 4, 5];
 
 const renderErrorMessage = (errorCode) => (
   <p
@@ -17,9 +18,9 @@ const renderErrorMessage = (errorCode) => (
 );
 
 const ReviewForm = (props) => {
-  const {disabled, rate, isRated, text, onRateClick, onRateChange, onTextChange, onSubmit, addReviewError} = props;
+  const {disabled, rate, text, onRateChange, onTextChange, onSubmit, addReviewError} = props;
 
-  const submitDisabled = disabled || !isRated || text.length < MIN_REVIEW_LENGTH || text.length > MAX_REVIEW_LENGTH;
+  const submitDisabled = disabled || !rate || text.length < MIN_REVIEW_LENGTH || text.length > MAX_REVIEW_LENGTH;
 
   return (
     <form
@@ -34,7 +35,8 @@ const ReviewForm = (props) => {
       <div className="rating">
         <div className="rating__stars">
           {starRates.map((starRate) => {
-            const value = starRate.toString();
+            const value = starRate;
+            const isHidden = !starRate;
 
             return (
               <Fragment key={starRate}>
@@ -43,14 +45,13 @@ const ReviewForm = (props) => {
                   id={`star-${value}`}
                   type="radio"
                   name="rating"
-                  value={value}
+                  value={`${value}`}
                   checked={rate === value}
-                  onClick={onRateClick}
-                  onChange={(evt) => onRateChange(evt.target.value)}
+                  onChange={(evt) => onRateChange(Number(evt.target.value))}
                   disabled={disabled}
                 />
                 <label
-                  className="rating__label"
+                  className={classNames({'visually-hidden': isHidden}, `rating__label`)}
                   htmlFor={`star-${value}`}
                 >
                   Rating {value}
@@ -87,10 +88,8 @@ const ReviewForm = (props) => {
 
 ReviewForm.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  rate: PropTypes.string.isRequired,
-  isRated: PropTypes.bool.isRequired,
+  rate: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
-  onRateClick: PropTypes.func.isRequired,
   onRateChange: PropTypes.func.isRequired,
   onTextChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

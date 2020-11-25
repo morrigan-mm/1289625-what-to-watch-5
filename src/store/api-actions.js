@@ -46,10 +46,10 @@ export const fetchPromoMovie = () => (dispatch, _getState, api) => (
     .catch(() => {})
 );
 
-export const fetchMovieReviews = (movieId) => (dispatch, _getState, api) => (
-  api.get(`/comments/${movieId}`)
+export const fetchMovieReviews = (filmId) => (dispatch, _getState, api) => (
+  api.get(`/comments/${filmId}`)
     .then(({data}) => data.map((dataItem) => convertFetchedReview(dataItem)))
-    .then((review) => dispatch(ActionCreator.loadMovieReviews(movieId, review)))
+    .then((reviews) => dispatch(ActionCreator.loadMovieReviews(filmId, reviews)))
     .catch(() => {})
 );
 
@@ -69,7 +69,8 @@ export const addReview = (filmId, {rate, text}) => (dispatch, _getState, api) =>
   dispatch(ActionCreator.addReview.request(filmId, {rate, text}));
 
   return api.post(`/comments/${filmId}`, {rating: rate, comment: text})
-    .then(({data}) => dispatch(ActionCreator.addReview.success(filmId, data)))
+    .then(({data}) => data.map((dataItem) => convertFetchedReview(dataItem)))
+    .then((reviews) => dispatch(ActionCreator.addReview.success(filmId, reviews)))
     .catch((error) => dispatch(ActionCreator.addReview.failure(getErrorCode(error))));
 };
 

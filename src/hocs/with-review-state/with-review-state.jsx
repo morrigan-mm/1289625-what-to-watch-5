@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react";
 
-const DEFAULT_RATE_VALUE = `3`;
+const DEFAULT_RATE_VALUE = 0;
 
 const withReviewState = (Component) => {
   class WithReviewState extends PureComponent {
@@ -9,17 +9,11 @@ const withReviewState = (Component) => {
 
       this.state = {
         text: ``,
-        rate: DEFAULT_RATE_VALUE,
-        isRated: false
+        rate: DEFAULT_RATE_VALUE
       };
 
-      this.handleRateClick = this.handleRateClick.bind(this);
       this.handleRateChange = this.handleRateChange.bind(this);
       this.handleTextChange = this.handleTextChange.bind(this);
-    }
-
-    handleRateClick() {
-      this.setState({isRated: true});
     }
 
     handleRateChange(rate) {
@@ -35,7 +29,6 @@ const withReviewState = (Component) => {
         <Component
           {...this.props}
           {...this.state}
-          onRateClick={this.handleRateClick}
           onRateChange={this.handleRateChange}
           onTextChange={this.handleTextChange}
         />
