@@ -3,22 +3,32 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {ActionCreator} from "../../store/action";
 import {addReview} from "../../store/api-actions";
+import {getFilmSelector, getHeaderUser, getOperations} from "../../store/selectors";
 import {isActionSuccess} from "../../utils";
 import history from "../../history";
-import {filmShape} from "../../prop-types";
+import {filmShape, headerUserType} from "../../prop-types";
 import ReviewForm from "../review-form/review-form";
 import withReviewState from "../../hocs/with-review-state/with-review-state";
 import Breadcrumbs from "../breadcrumbs/breadcrumbs";
 import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
+import {AppRoute} from "../../constants";
 
 const WithReviewStateForm = withReviewState(ReviewForm);
 
 const PageAddReview = (props) => {
-  const {film, onReviewSubmit, isLoading, addReviewError, onUnmount} = props;
-  const {title, poster} = film;
+  const {film, headerUser, onReviewSubmit, isLoading, addReviewError, onUnmount} = props;
+  const {title, poster, backgroundImage} = film;
 
-  const breadcrumbs = [{text: title, link: `/films/${film.id}`}, {text: `Add Review`}];
+  const breadcrumbs = [
+    {
+      text: title,
+      link: AppRoute.FILM.url({id: film.id})
+    },
+    {
+      text: `Add Review`
+    }
+  ];
 
   useEffect(() => {
     return () => {
@@ -30,14 +40,14 @@ const PageAddReview = (props) => {
     <section className="movie-card movie-card--full">
       <div className="movie-card__header">
         <div className="movie-card__bg">
-          <img src="/img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={backgroundImage} alt={title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
         <Header>
           <Breadcrumbs breadcrumbs={breadcrumbs} />
-          <HeaderUserBlock />
+          <HeaderUserBlock headerUser={headerUser} />
         </Header>
 
         <div className="movie-card__poster movie-card__poster--small">
@@ -54,26 +64,32 @@ const PageAddReview = (props) => {
 };
 
 PageAddReview.propTypes = {
-  film: filmShape,
+  film: filmShape.isRequired,
   filmId: PropTypes.number.isRequired,
-  addReviewError: PropTypes.number.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  headerUser: headerUserType.isRequired,
+  addReviewError: PropTypes.number,
+  isLoading: PropTypes.bool,
   onReviewSubmit: PropTypes.func.isRequired,
   onUnmount: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({DATA, OPERATIONS}, ownProps) => ({
-  film: DATA.films.find(({id}) => id === ownProps.filmId),
-  isLoading: OPERATIONS.addReviewLoading,
-  addReviewError: OPERATIONS.addReviewError
-});
+const mapStateToProps = (state, {filmId}) => {
+  const {addReviewLoading, addReviewError} = getOperations(state);
+
+  return {
+    addReviewError,
+    film: getFilmSelector(filmId)(state),
+    headerUser: getHeaderUser(state),
+    isLoading: addReviewLoading
+  };
+};
 
 const mapDispatchToProps = (dispatch, {filmId}) => ({
   onReviewSubmit: (review) => {
     dispatch(addReview(filmId, review))
       .then((action) => {
         if (isActionSuccess(action)) {
-          history.push(`/films/${filmId}`);
+          history.push(AppRoute.FILM.url({id: filmId}));
         }
       });
   },

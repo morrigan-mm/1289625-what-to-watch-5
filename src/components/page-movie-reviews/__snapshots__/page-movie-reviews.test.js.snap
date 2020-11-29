@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageMovieReviews Should render correctly with empty review list 1`] = `
+<div
+  className="movie-card__reviews movie-card__row"
+>
+  <p
+    className="review"
+  >
+    There are currently no reviews for this movie
+  </p>
+</div>
+`;
+
+exports[`PageMovieReviews Should render correctly with full review list 1`] = `
+<div
+  className="movie-card__reviews movie-card__row"
+>
+  <div
+    className="movie-card__reviews-col"
+  >
+    <div
+      className="review"
+    >
+      <blockquote
+        className="review__quote"
+      >
+        <p
+          className="review__text"
+        >
+          some review text 1
+        </p>
+        <footer
+          className="review__details"
+        >
+          <cite
+            className="review__author"
+          >
+            Author name1
+          </cite>
+          <time
+            className="review__date"
+            dateTime="1/1/2020"
+          >
+            January 1, 2020
+          </time>
+        </footer>
+      </blockquote>
+      <div
+        className="review__rating"
+      >
+        1.1
+      </div>
+    </div>
+    <div
+      className="review"
+    >
+      <blockquote
+        className="review__quote"
+      >
+        <p
+          className="review__text"
+        >
+          some review text 2
+        </p>
+        <footer
+          className="review__details"
+        >
+          <cite
+            className="review__author"
+          >
+            Author name2
+          </cite>
+          <time
+            className="review__date"
+            dateTime="2/2/2020"
+          >
+            February 2, 2020
+          </time>
+        </footer>
+      </blockquote>
+      <div
+        className="review__rating"
+      >
+        2.2
+      </div>
+    </div>
+  </div>
+  <div
+    className="movie-card__reviews-col"
+  >
+    <div
+      className="review"
+    >
+      <blockquote
+        className="review__quote"
+      >
+        <p
+          className="review__text"
+        >
+          some review text 3
+        </p>
+        <footer
+          className="review__details"
+        >
+          <cite
+            className="review__author"
+          >
+            Author name3
+          </cite>
+          <time
+            className="review__date"
+            dateTime="3/3/2020"
+          >
+            March 3, 2020
+          </time>
+        </footer>
+      </blockquote>
+      <div
+        className="review__rating"
+      >
+        3.3
+      </div>
+    </div>
+  </div>
+</div>
+`;

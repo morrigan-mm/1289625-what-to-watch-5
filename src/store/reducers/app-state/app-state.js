@@ -18,10 +18,7 @@ const appState = (state = initialState, action) => {
         chunk: state.chunk + 1
       });
     case ActionType.RESET_MOVIES:
-      return extend(state, {
-        activeGenre: ``,
-        chunk: initialState.chunk
-      });
+      return extend(state, initialState);
     default:
       return state;
   }

@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {filmShape} from "../../prop-types";
 import {formatDuration, formatProgressBar, requestFullScreen, allowFullScreen} from "../../utils";
+import {getFilmSelector} from "../../store/selectors";
 
 const renderPlayButton = () => {
   return (
@@ -111,8 +112,9 @@ Player.propTypes = {
   onTimeUpdate: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({DATA}, ownProps) => ({
-  film: DATA.films.find(({id}) => id === ownProps.filmId)
+const mapStateToProps = (state, {filmId}) => ({
+  film: getFilmSelector(filmId)(state)
 });
 
+export {Player};
 export default connect(mapStateToProps)(Player);

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {PageType} from "../../constants";
-import {filmShape} from "../../prop-types";
+import {filmShape, headerUserType} from "../../prop-types";
 import {getErrorMessage} from "../../utils";
 import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
@@ -11,6 +11,7 @@ import PlayMovieButton from "../play-movie-button/play-movie-button";
 const MainHead = (props) => {
   const {
     promo,
+    headerUser,
     changeFavoriteError,
     myListButtonDisabled,
     onPlayButtonClick,
@@ -34,7 +35,7 @@ const MainHead = (props) => {
       <h1 className="visually-hidden">WTW</h1>
 
       <Header pageType={PageType.MOVIE_CARD}>
-        <HeaderUserBlock />
+        <HeaderUserBlock headerUser={headerUser} />
       </Header>
 
       <div className="movie-card__wrap">
@@ -69,8 +70,9 @@ const MainHead = (props) => {
 
 MainHead.propTypes = {
   promo: filmShape.isRequired,
-  myListButtonDisabled: PropTypes.bool.isRequired,
-  changeFavoriteError: PropTypes.number.isRequired,
+  myListButtonDisabled: PropTypes.bool,
+  changeFavoriteError: PropTypes.number,
+  headerUser: headerUserType.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
   onMyListButtonClick: PropTypes.func.isRequired
 };

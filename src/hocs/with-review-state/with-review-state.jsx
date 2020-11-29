@@ -1,40 +1,12 @@
-import React, {PureComponent} from "react";
-
-const DEFAULT_RATE_VALUE = 0;
+import React from "react";
+import useReviewState from "../../hooks/use-review-state";
 
 const withReviewState = (Component) => {
-  class WithReviewState extends PureComponent {
-    constructor(props) {
-      super(props);
+  const WithReviewState = (props) => {
+    const state = useReviewState();
 
-      this.state = {
-        text: ``,
-        rate: DEFAULT_RATE_VALUE
-      };
-
-      this.handleRateChange = this.handleRateChange.bind(this);
-      this.handleTextChange = this.handleTextChange.bind(this);
-    }
-
-    handleRateChange(rate) {
-      this.setState({rate});
-    }
-
-    handleTextChange(text) {
-      this.setState({text});
-    }
-
-    render() {
-      return (
-        <Component
-          {...this.props}
-          {...this.state}
-          onRateChange={this.handleRateChange}
-          onTextChange={this.handleTextChange}
-        />
-      );
-    }
-  }
+    return <Component {...props} {...state} />;
+  };
 
   return WithReviewState;
 };

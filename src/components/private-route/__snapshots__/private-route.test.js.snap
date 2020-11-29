@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PrivateRoute Should render redirect, if status is NO_AUTH 1`] = `null`;
+
+exports[`PrivateRoute Should render with call given render function, if status is AUTH 1`] = `<div />`;

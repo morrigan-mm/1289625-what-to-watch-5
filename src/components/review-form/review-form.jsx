@@ -87,13 +87,13 @@ const ReviewForm = (props) => {
 };
 
 ReviewForm.propTypes = {
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   rate: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
+  addReviewError: PropTypes.number,
   onRateChange: PropTypes.func.isRequired,
   onTextChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  addReviewError: PropTypes.number.isRequired
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default ReviewForm;

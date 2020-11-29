@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Breadcrumbs Should render correctly 1`] = `
+<nav
+  className="breadcrumbs"
+>
+  <ul
+    className="breadcrumbs__list"
+  >
+    <li
+      className="breadcrumbs__item"
+    >
+      <a
+        className="breadcrumbs__link"
+        href="/films/1234"
+        onClick={[Function]}
+      >
+        A Star Is Born
+      </a>
+    </li>
+    <li
+      className="breadcrumbs__item"
+    >
+      <span
+        className="breadcrumbs__link"
+      >
+        Add Review
+      </span>
+    </li>
+  </ul>
+</nav>
+`;

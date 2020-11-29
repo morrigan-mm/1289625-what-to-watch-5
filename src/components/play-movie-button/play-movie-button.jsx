@@ -17,7 +17,7 @@ const PlayMovieButton = ({onClick}) => {
 };
 
 PlayMovieButton.propTypes = {
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func
 };
 
 export default PlayMovieButton;

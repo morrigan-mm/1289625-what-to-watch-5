@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ToggleMyListMovieButton With disabled prop 1`] = `
+<button
+  className="btn btn--list movie-card__button"
+  disabled={true}
+  type="button"
+>
+  <svg
+    height="20"
+    viewBox="0 0 19 20"
+    width="19"
+  >
+    <use
+      href="#add"
+    />
+  </svg>
+  <span>
+    My list
+  </span>
+</button>
+`;
+
+exports[`ToggleMyListMovieButton With isFavorite prop 1`] = `
+<button
+  className="btn btn--list movie-card__button"
+  type="button"
+>
+  <svg
+    height="14"
+    viewBox="0 0 18 14"
+    width="18"
+  >
+    <use
+      href="#in-list"
+    />
+  </svg>
+  <span>
+    My list
+  </span>
+</button>
+`;
+
+exports[`ToggleMyListMovieButton With no props 1`] = `
+<button
+  className="btn btn--list movie-card__button"
+  type="button"
+>
+  <svg
+    height="20"
+    viewBox="0 0 19 20"
+    width="19"
+  >
+    <use
+      href="#add"
+    />
+  </svg>
+  <span>
+    My list
+  </span>
+</button>
+`;

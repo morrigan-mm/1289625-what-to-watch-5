@@ -14,7 +14,7 @@ const renderGenre = (genre, isActive, onGenreClick) => {
     <li
       key={genre}
       className={classNames(`catalog__genres-item`, {'catalog__genres-item--active': isActive})}>
-      <a href="#" className="catalog__genres-link" onClick={handleClick}>{genre}</a>
+      <a href="#" className="catalog__genres-link" onClick={handleClick} data-genre={genre}>{genre}</a>
     </li>
   );
 };

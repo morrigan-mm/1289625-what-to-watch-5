@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MoviePreview Should render correctly 1`] = `
+<video
+  className="small-movie-card__image"
+  height="175"
+  muted={true}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  poster="#poster"
+  preload="none"
+  src="#video"
+  width="280"
+/>
+`;

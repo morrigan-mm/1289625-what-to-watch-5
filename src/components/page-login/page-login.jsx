@@ -6,7 +6,8 @@ import {login} from "../../store/api-actions";
 import Footer from "../footer/footer";
 import Header from "../header/header";
 import HeaderPageTitle from "../header-page-title/header-page-title";
-import {AuthorizationStatus, PageType} from "../../constants";
+import {AppRoute, AuthorizationStatus, PageType} from "../../constants";
+import {getUserErrorStatus, getUserStatus} from "../../store/selectors";
 import withLoginState from "../../hocs/with-login-state/with-login-state";
 import LoginForm from "../login-form/login-form";
 
@@ -14,7 +15,7 @@ const WithLoginStateForm = withLoginState(LoginForm);
 
 const PageLogin = ({authorizationError, authorizationStatus, onLoginSubmit}) => {
   if (authorizationStatus === AuthorizationStatus.AUTH) {
-    return <Redirect to="/" />;
+    return <Redirect to={AppRoute.ROOT.url()} />;
   }
 
   return (
@@ -38,9 +39,9 @@ PageLogin.propTypes = {
   onLoginSubmit: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({USER}) => ({
-  authorizationError: USER.errorCode,
-  authorizationStatus: USER.authorizationStatus
+const mapStateToProps = (state) => ({
+  authorizationError: getUserErrorStatus(state),
+  authorizationStatus: getUserStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -49,4 +50,5 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
+export {PageLogin};
 export default connect(mapStateToProps, mapDispatchToProps)(PageLogin);
