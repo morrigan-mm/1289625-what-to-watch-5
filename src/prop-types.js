@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import {AuthorizationStatus} from "./constants";
 
 export const reviewShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -31,4 +32,14 @@ export const filmShape = PropTypes.shape({
 export const breadcrumbShape = PropTypes.shape({
   text: PropTypes.string.isRequired,
   link: PropTypes.string
+});
+
+export const authorizationStatusType = PropTypes.oneOf([
+  AuthorizationStatus.AUTH,
+  AuthorizationStatus.NO_AUTH
+]);
+
+export const headerUserType = PropTypes.shape({
+  authorizationStatus: authorizationStatusType.isRequired,
+  avatar: PropTypes.string
 });

@@ -1,3 +1,4 @@
+import {APIRoute} from "../constants";
 import {ActionCreator} from "./action";
 
 const convertFetchedMovie = (movie) => ({
@@ -29,54 +30,61 @@ const convertFetchedReview = (review) => ({
 });
 
 const getErrorCode = (error) => {
-  return error.response && error.response.code || -1;
+  return error.response && error.response.status || -1;
 };
 
 export const fetchMovieList = () => (dispatch, _getState, api) => (
-  api.get(`/films`)
+  api.get(APIRoute.FILMS.url())
     .then(({data}) => data.map((dataItem) => convertFetchedMovie(dataItem)))
     .then((movies) => dispatch(ActionCreator.loadMovies(movies)))
     .catch(() => {})
 );
 
 export const fetchPromoMovie = () => (dispatch, _getState, api) => (
-  api.get(`/films/promo`)
+  api.get(APIRoute.PROMO.url())
     .then(({data}) => convertFetchedMovie(data))
     .then((movie) => dispatch(ActionCreator.loadPromoMovie(movie)))
     .catch(() => {})
 );
 
-export const fetchMovieReviews = (movieId) => (dispatch, _getState, api) => (
-  api.get(`/comments/${movieId}`)
+export const fetchMovieReviews = (filmId) => (dispatch, _getState, api) => (
+  api.get(APIRoute.REVIEWS.url({id: filmId}))
     .then(({data}) => data.map((dataItem) => convertFetchedReview(dataItem)))
-    .then((review) => dispatch(ActionCreator.loadMovieReviews(movieId, review)))
+    .then((reviews) => dispatch(ActionCreator.loadMovieReviews(filmId, reviews)))
     .catch(() => {})
 );
 
 export const checkAuthorization = () => (dispatch, _getState, api) => (
-  api.get(`/login`)
+  api.get(APIRoute.LOGIN.url())
     .then(({data}) => dispatch(ActionCreator.authorize(data)))
     .catch(() => {})
 );
 
-export const login = ({email, password}) => (dispatch, _getState, api) => (
-  api.post(`/login`, {email, password})
+export const login = ({email, password}) => (dispatch, _getState, api) => {
+  const url = APIRoute.LOGIN.url();
+  const body = {email, password};
+
+  return api.post(url, body)
     .then(({data}) => dispatch(ActionCreator.authorize(data)))
-    .catch((error) => dispatch(ActionCreator.authorize(null, getErrorCode(error))))
-);
+    .catch((error) => dispatch(ActionCreator.authorize(null, getErrorCode(error))));
+};
 
 export const addReview = (filmId, {rate, text}) => (dispatch, _getState, api) => {
+  const url = APIRoute.REVIEWS.url({id: filmId});
+  const body = {rating: rate, comment: text};
+
   dispatch(ActionCreator.addReview.request(filmId, {rate, text}));
 
-  return api.post(`/comments/${filmId}`, {rating: rate, comment: text})
-    .then(({data}) => dispatch(ActionCreator.addReview.success(filmId, data)))
+  return api.post(url, body)
+    .then(({data}) => data.map((dataItem) => convertFetchedReview(dataItem)))
+    .then((reviews) => dispatch(ActionCreator.addReview.success(filmId, reviews)))
     .catch((error) => dispatch(ActionCreator.addReview.failure(getErrorCode(error))));
 };
 
 export const changeFavorite = (filmId, status) => (dispatch, _getState, api) => {
   dispatch(ActionCreator.changeFavorite.request(filmId, status));
 
-  return api.post(`/favorite/${filmId}/${status}`)
+  return api.post(APIRoute.FAVORITE.url({id: filmId, status}))
     .then(({data}) => dispatch(ActionCreator.changeFavorite.success(convertFetchedMovie(data))))
     .catch((error) => dispatch(ActionCreator.changeFavorite.failure(getErrorCode(error))));
 };

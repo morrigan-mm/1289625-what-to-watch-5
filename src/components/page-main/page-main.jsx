@@ -1,16 +1,16 @@
 import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {MyListMovieStatus} from "../../constants";
+import {filmShape, headerUserType} from "../../prop-types";
+import MainHead from "../main-head/main-head";
 import {ActionCreator} from "../../store/action";
+import {changeFavorite} from "../../store/api-actions";
+import {getGenre, getPromo, getFilmsCountSelector, getGenreList, getFilteredFilms, getHeaderUser, getOperations} from "../../store/selectors";
 import GenreList from "../genre-list/genre-list";
 import MovieList from "../movie-list/movie-list";
 import ShowMoreButton from "../show-more-button/show-more-button";
 import Footer from "../footer/footer";
-import {filmShape} from "../../prop-types";
-import MainHead from "../main-head/main-head";
-import {getGenre, getPromo, getFilmsCount, getGenreList, getFilteredFilms} from "../../store/selectors";
-import {changeFavorite} from "../../store/api-actions";
-import {MyListMovieStatus} from "../../constants";
 
 const MOVIES_PER_CHUNK = 8;
 
@@ -19,6 +19,7 @@ const PageMain = (props) => {
     promo,
     films,
     genres,
+    headerUser,
     activeGenre,
     onGenreSelect,
     onPlayButtonClick,
@@ -36,6 +37,10 @@ const PageMain = (props) => {
     };
   }, []);
 
+  if (!promo) {
+    return null;
+  }
+
   return (
     <>
       <MainHead
@@ -44,6 +49,7 @@ const PageMain = (props) => {
         onMyListButtonClick={onMyListButtonClick}
         onPlayButtonClick={onPlayButtonClick}
         promo={promo}
+        headerUser={headerUser}
       />
 
       <div className="page-content">
@@ -67,29 +73,31 @@ PageMain.propTypes = {
   promo: filmShape.isRequired,
   films: PropTypes.arrayOf(filmShape).isRequired,
   genres: PropTypes.arrayOf(PropTypes.string).isRequired,
-  activeGenre: PropTypes.string.isRequired,
+  headerUser: headerUserType.isRequired,
+  activeGenre: PropTypes.string,
+  hasMoreFilms: PropTypes.bool,
+  changeFavoriteError: PropTypes.number,
+  isFavoriteChanging: PropTypes.bool,
   onGenreSelect: PropTypes.func.isRequired,
-  onUnmount: PropTypes.func.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
   onShowMoreButtonClick: PropTypes.func.isRequired,
-  hasMoreFilms: PropTypes.bool.isRequired,
-  isFavoriteChanging: PropTypes.bool.isRequired,
-  changeFavoriteError: PropTypes.number.isRequired,
-  onMyListButtonClick: PropTypes.func.isRequired
+  onMyListButtonClick: PropTypes.func.isRequired,
+  onUnmount: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
   const films = getFilteredFilms(state);
-  const filmsCount = getFilmsCount(MOVIES_PER_CHUNK)(state);
+  const filmsCount = getFilmsCountSelector(MOVIES_PER_CHUNK)(state);
 
   return {
     activeGenre: getGenre(state),
     films: films.slice(0, filmsCount),
     genres: getGenreList(state),
+    headerUser: getHeaderUser(state),
     hasMoreFilms: films.length > filmsCount,
     promo: getPromo(state),
-    isFavoriteChanging: state.OPERATIONS.changeFavoriteLoading,
-    changeFavoriteError: state.OPERATIONS.changeFavoriteError
+    isFavoriteChanging: getOperations(state).changeFavoriteLoading,
+    changeFavoriteError: getOperations(state).changeFavoriteError
   };
 };
 

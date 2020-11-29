@@ -45,11 +45,11 @@ export const formatDuration = (seconds) => {
 };
 
 export const formatProgressBar = (currentTime, duration) => {
-  return Math.round((currentTime / duration) * 100);
+  return !duration ? 0 : Math.round((currentTime / duration) * 100);
 };
 
-export const isActionFailure = (action) => {
-  return action.type.endsWith(`_FAILURE`);
+export const isActionSuccess = (action) => {
+  return action.type.endsWith(`_SUCCESS`);
 };
 
 export const getErrorMessage = (errorCode) => {

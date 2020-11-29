@@ -18,3 +18,5 @@ export const filterByGenre = (filmList, genre) => filmList.filter((film) => film
 export const getGenres = (filmList, limit = MAX_GENRES_COUNT_TO_SHOW) => (
   [...new Set(filmList.map((film) => film.genre))].slice(0, limit)
 );
+
+export const filterMyFilms = (filmList) => filmList.filter((film) => film.addedToMyList);

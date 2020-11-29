@@ -6,18 +6,17 @@ import Footer from "../footer/footer";
 import Header from "../header/header";
 import HeaderPageTitle from "../header-page-title/header-page-title";
 import HeaderUserBlock from "../header-user-block/header-user-block";
-import {filmShape} from "../../prop-types";
+import {filmShape, headerUserType} from "../../prop-types";
 import {PageType} from "../../constants";
+import {getHeaderUser, getMyFilmList} from "../../store/selectors";
 
-const filterMyFilms = (filmList) => filmList.filter((film) => film.addedToMyList);
-
-const PageMyList = ({films}) => {
+const PageMyList = ({films, headerUser}) => {
   return (
     <div className="user-page">
 
       <Header pageType={PageType.USER_PAGE}>
         <HeaderPageTitle>My list</HeaderPageTitle>
-        <HeaderUserBlock />
+        <HeaderUserBlock headerUser={headerUser} />
       </Header>
 
       <section className="catalog">
@@ -32,11 +31,13 @@ const PageMyList = ({films}) => {
 };
 
 PageMyList.propTypes = {
-  films: PropTypes.arrayOf(filmShape).isRequired
+  films: PropTypes.arrayOf(filmShape).isRequired,
+  headerUser: headerUserType.isRequired
 };
 
-const mapStateToProps = ({DATA}) => ({
-  films: filterMyFilms(DATA.films)
+const mapStateToProps = (state) => ({
+  films: getMyFilmList(state),
+  headerUser: getHeaderUser(state)
 });
 
 export {PageMyList};

@@ -1,52 +1,52 @@
 import React from "react";
 import {Switch, Route, Redirect, Router} from "react-router-dom";
-import PageMain from "../page-main/page-main";
-import PageLogin from "../page-login/page-login";
+import {PageMovieTab, AppRoute} from "../../constants";
+import history from "../../history";
 import PageAddReview from "../page-add-review/page-add-review";
+import PageLogin from "../page-login/page-login";
+import PageMain from "../page-main/page-main";
+import PageNotFound from "../page-not-found/page-not-found";
 import PageMovie from "../page-movie/page-movie";
 import PageMyList from "../page-my-list/page-my-list";
 import Player from "../player/player";
-import {PageMovieTab} from "../../constants";
-import history from "../../history";
-import withPlayingState from "../../hocs/with-playing-state/with-playing-state";
 import PrivateRoute from "../private-route/private-route";
-import PageNotFound from "../page-not-found/page-not-found";
-
-const WithPlayingStatePlayer = withPlayingState(Player);
 
 const handlePlayButtonClick = (id) => {
-  history.push(`/player/${id}`);
+  history.push(AppRoute.PLAYER.url({id}));
 };
 
 const handleExitButtonClick = (id) => {
-  history.push(`/films/${id}`);
+  history.push(AppRoute.FILM.url({id}));
 };
 
 const App = () => {
   return (
     <Router history={history}>
       <Switch>
-        <Route exact path="/">
+        <Route exact path={AppRoute.ROOT.pattern}>
           <PageMain onPlayButtonClick={handlePlayButtonClick} />
         </Route>
-        <Route exact path="/login">
+        <Route exact path={AppRoute.LOGIN.pattern}>
           <PageLogin />
         </Route>
         <PrivateRoute exact
-          path={`/mylist`}
+          path={AppRoute.MY_LIST.pattern}
           render={() => <PageMyList />}
         />
         <PrivateRoute exact
-          path="/films/:id/review"
+          path={AppRoute.ADD_REVIEW.pattern}
           render={({match}) => (
             <PageAddReview
               filmId={Number(match.params.id)}
             />
           )}
         />
-        <Redirect exact from="/films/:id" to={`/films/:id/${PageMovieTab.OVERVIEW}`} />
+        <Redirect exact
+          from={AppRoute.FILM.pattern}
+          to={AppRoute.FILM_TAB.url({tab: PageMovieTab.OVERVIEW})}
+        />
         <Route exact
-          path="/films/:id/:tab"
+          path={AppRoute.FILM_TAB.pattern}
           render={({match}) => (
             <PageMovie
               activeTab={match.params.tab}
@@ -56,9 +56,9 @@ const App = () => {
           )}
         />
         <Route exact
-          path="/player/:id"
+          path={AppRoute.PLAYER.pattern}
           render={({match}) => (
-            <WithPlayingStatePlayer
+            <Player
               filmId={Number(match.params.id)}
               onExitButtonClick={handleExitButtonClick}
             />

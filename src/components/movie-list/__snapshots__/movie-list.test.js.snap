@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MovieList Should render correctly 1`] = `
+<div
+  className="catalog__movies-list"
+>
+  <article
+    className="small-movie-card catalog__movies-card"
+  >
+    <a
+      className="small-movie-card__link"
+      href="/films/0"
+      onClick={[Function]}
+    >
+      <video
+        className="small-movie-card__image"
+        height="175"
+        muted={true}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        poster="#cover"
+        preload="none"
+        src="#preview"
+        width="280"
+      />
+      <h3
+        className="small-movie-card__title"
+      >
+        <span
+          className="small-movie-card__link"
+        >
+          The Revenant
+        </span>
+      </h3>
+    </a>
+  </article>
+  <article
+    className="small-movie-card catalog__movies-card"
+  >
+    <a
+      className="small-movie-card__link"
+      href="/films/1"
+      onClick={[Function]}
+    >
+      <video
+        className="small-movie-card__image"
+        height="175"
+        muted={true}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        poster="#cover"
+        preload="none"
+        src="#preview"
+        width="280"
+      />
+      <h3
+        className="small-movie-card__title"
+      >
+        <span
+          className="small-movie-card__link"
+        >
+          The Revenant
+        </span>
+      </h3>
+    </a>
+  </article>
+  <article
+    className="small-movie-card catalog__movies-card"
+  >
+    <a
+      className="small-movie-card__link"
+      href="/films/2"
+      onClick={[Function]}
+    >
+      <video
+        className="small-movie-card__image"
+        height="175"
+        muted={true}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        poster="#cover"
+        preload="none"
+        src="#preview"
+        width="280"
+      />
+      <h3
+        className="small-movie-card__title"
+      >
+        <span
+          className="small-movie-card__link"
+        >
+          The Revenant
+        </span>
+      </h3>
+    </a>
+  </article>
+  <article
+    className="small-movie-card catalog__movies-card"
+  >
+    <a
+      className="small-movie-card__link"
+      href="/films/3"
+      onClick={[Function]}
+    >
+      <video
+        className="small-movie-card__image"
+        height="175"
+        muted={true}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        poster="#cover"
+        preload="none"
+        src="#preview"
+        width="280"
+      />
+      <h3
+        className="small-movie-card__title"
+      >
+        <span
+          className="small-movie-card__link"
+        >
+          The Revenant
+        </span>
+      </h3>
+    </a>
+  </article>
+  <article
+    className="small-movie-card catalog__movies-card"
+  >
+    <a
+      className="small-movie-card__link"
+      href="/films/4"
+      onClick={[Function]}
+    >
+      <video
+        className="small-movie-card__image"
+        height="175"
+        muted={true}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        poster="#cover"
+        preload="none"
+        src="#preview"
+        width="280"
+      />
+      <h3
+        className="small-movie-card__title"
+      >
+        <span
+          className="small-movie-card__link"
+        >
+          The Revenant
+        </span>
+      </h3>
+    </a>
+  </article>
+</div>
+`;

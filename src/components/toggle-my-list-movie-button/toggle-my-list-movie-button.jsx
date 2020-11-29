@@ -18,9 +18,9 @@ const ToggleMyListMovieButton = ({onClick, disabled, isFavorite}) => {
 };
 
 ToggleMyListMovieButton.propTypes = {
-  isFavorite: PropTypes.bool.isRequired,
+  isFavorite: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired
+  disabled: PropTypes.bool
 };
 
 export default ToggleMyListMovieButton;

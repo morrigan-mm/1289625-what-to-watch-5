@@ -1,33 +1,25 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {connect} from "react-redux";
-import PropTypes from "prop-types";
-import {AuthorizationStatus} from "../../constants";
+import {AppRoute, AuthorizationStatus} from "../../constants";
+import {headerUserType} from "../../prop-types";
 
-const HeaderUserBlock = (props) => {
-  const {authorizationStatus, avatar} = props;
+const HeaderUserBlock = ({headerUser}) => {
+  const {authorizationStatus, avatar} = headerUser;
 
   return (
     <div className="user-block">
       {authorizationStatus === AuthorizationStatus.AUTH ?
-        <Link to={`/myList`} className="user-block__avatar">
+        <Link to={AppRoute.MY_LIST.url()} className="user-block__avatar">
           <img src={avatar} alt="User avatar" width="63" height="63" />
         </Link> :
-        <Link to={`/login`} className="user-block__link">Sign in</Link>
+        <Link to={AppRoute.LOGIN.url()} className="user-block__link">Sign in</Link>
       }
     </div>
   );
 };
 
 HeaderUserBlock.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-  avatar: PropTypes.string
+  headerUser: headerUserType.isRequired
 };
 
-const mapStateToProps = ({USER}) => ({
-  authorizationStatus: USER.authorizationStatus,
-  avatar: USER.info ? USER.info.avatar_url : null
-});
-
-export {HeaderUserBlock};
-export default connect(mapStateToProps)(HeaderUserBlock);
+export default HeaderUserBlock;

@@ -1,8 +1,10 @@
 import React, {useRef} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
+import usePlayingState from "../../hooks/use-playing-state";
 import {filmShape} from "../../prop-types";
 import {formatDuration, formatProgressBar, requestFullScreen, allowFullScreen} from "../../utils";
+import {getFilmSelector} from "../../store/selectors";
 
 const renderPlayButton = () => {
   return (
@@ -27,16 +29,16 @@ const renderPauseButton = () => {
 };
 
 const Player = (props) => {
+  const {film, onExitButtonClick} = props;
+
   const {
-    film,
     duration,
     currentTime,
     isPlaying,
-    onExitButtonClick,
     onButtonClick,
     onDurationChange,
     onTimeUpdate
-  } = props;
+  } = usePlayingState();
 
   const {title, cover, video} = film;
 
@@ -102,17 +104,12 @@ const Player = (props) => {
 Player.propTypes = {
   film: filmShape.isRequired,
   filmId: PropTypes.number.isRequired,
-  duration: PropTypes.number.isRequired,
-  currentTime: PropTypes.number.isRequired,
-  isPlaying: PropTypes.bool.isRequired,
   onExitButtonClick: PropTypes.func.isRequired,
-  onButtonClick: PropTypes.func.isRequired,
-  onDurationChange: PropTypes.func.isRequired,
-  onTimeUpdate: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({DATA}, ownProps) => ({
-  film: DATA.films.find(({id}) => id === ownProps.filmId)
+const mapStateToProps = (state, {filmId}) => ({
+  film: getFilmSelector(filmId)(state)
 });
 
+export {Player};
 export default connect(mapStateToProps)(Player);

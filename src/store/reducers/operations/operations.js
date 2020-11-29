@@ -3,12 +3,12 @@ import {ActionType} from "../../action";
 
 const AddReviewInitialState = {
   addReviewLoading: false,
-  addReviewError: 0,
+  addReviewError: 0
 };
 
 const ChangeFavoriteInitialState = {
   changeFavoriteLoading: false,
-  changeFavoriteError: 0,
+  changeFavoriteError: 0
 };
 
 const InitialState = extend(AddReviewInitialState, ChangeFavoriteInitialState);

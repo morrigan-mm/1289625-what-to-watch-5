@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import PropTypes from "prop-types";
+import useLoginState from "../../hooks/use-login-state";
 
 const FIELD_ERROR_CLASS = `sign-in__field--error`;
 
@@ -12,31 +13,31 @@ const renderErrorMessage = (text) => (
 
 const LoginForm = (props) => {
   const {
-    onEmailChange,
-    onPasswordChange,
-    onToggleErrors,
-    onSubmit,
     authorizationError,
+    onSubmit
+  } = props;
+
+  const {
     email,
     emailError,
     password,
-    showErrors
-  } = props;
+    onEmailChange,
+    onPasswordChange,
+    validateEmail
+  } = useLoginState();
 
   let errorMessage = null;
 
   if (authorizationError) {
     errorMessage = `We can’t recognize this email and password combination. Please try again.`;
-  } else if (emailError && showErrors) {
+  } else if (emailError) {
     errorMessage = `Please enter a valid email address`;
   }
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    if (emailError) {
-      onToggleErrors(true);
-    } else {
+    if (validateEmail()) {
       onSubmit(email, password);
     }
   };
@@ -45,14 +46,14 @@ const LoginForm = (props) => {
     <form action="#" className="sign-in__form" noValidate onSubmit={handleSubmit}>
       {errorMessage && renderErrorMessage(errorMessage)}
       <div className="sign-in__fields">
-        <div className={classNames(`sign-in__field`, emailError && showErrors && FIELD_ERROR_CLASS)}>
+        <div className={classNames(`sign-in__field`, emailError && FIELD_ERROR_CLASS)}>
           <input
             className="sign-in__input"
             type="email"
             placeholder="Email address"
             name="user-email"
             id="user-email"
-            onChange={(evt) => onEmailChange(evt.target.value, evt.target.checkValidity())}
+            onChange={(evt) => onEmailChange(evt.target.value)}
             value={email}
           />
           <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
@@ -79,14 +80,7 @@ const LoginForm = (props) => {
 
 LoginForm.propTypes = {
   authorizationError: PropTypes.number,
-  email: PropTypes.string.isRequired,
-  emailError: PropTypes.bool.isRequired,
-  password: PropTypes.string.isRequired,
-  showErrors: PropTypes.bool.isRequired,
-  onEmailChange: PropTypes.func.isRequired,
-  onPasswordChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onToggleErrors: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default LoginForm;
