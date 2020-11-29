@@ -22,7 +22,7 @@ exports[`Review Should render correctly 1`] = `
       </cite>
       <time
         className="review__date"
-        dateTime="1/1/2020"
+        dateTime="2020-01-01"
       >
         January 1, 2020
       </time>
@@ -31,7 +31,7 @@ exports[`Review Should render correctly 1`] = `
   <div
     className="review__rating"
   >
-    1.1
+    1,1
   </div>
 </div>
 `;

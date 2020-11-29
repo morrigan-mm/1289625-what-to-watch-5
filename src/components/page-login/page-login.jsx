@@ -8,10 +8,7 @@ import Header from "../header/header";
 import HeaderPageTitle from "../header-page-title/header-page-title";
 import {AppRoute, AuthorizationStatus, PageType} from "../../constants";
 import {getUserErrorStatus, getUserStatus} from "../../store/selectors";
-import withLoginState from "../../hocs/with-login-state/with-login-state";
 import LoginForm from "../login-form/login-form";
-
-const WithLoginStateForm = withLoginState(LoginForm);
 
 const PageLogin = ({authorizationError, authorizationStatus, onLoginSubmit}) => {
   if (authorizationStatus === AuthorizationStatus.AUTH) {
@@ -25,7 +22,7 @@ const PageLogin = ({authorizationError, authorizationStatus, onLoginSubmit}) => 
       </Header>
 
       <div className="sign-in user-page__content">
-        <WithLoginStateForm authorizationError={authorizationError} onSubmit={onLoginSubmit} />
+        <LoginForm authorizationError={authorizationError} onSubmit={onLoginSubmit} />
       </div>
 
       <Footer />

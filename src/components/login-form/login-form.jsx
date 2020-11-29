@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import PropTypes from "prop-types";
+import useLoginState from "../../hooks/use-login-state";
 
 const FIELD_ERROR_CLASS = `sign-in__field--error`;
 
@@ -13,14 +14,17 @@ const renderErrorMessage = (text) => (
 const LoginForm = (props) => {
   const {
     authorizationError,
+    onSubmit
+  } = props;
+
+  const {
     email,
     emailError,
     password,
     onEmailChange,
     onPasswordChange,
-    onSubmit,
     validateEmail
-  } = props;
+  } = useLoginState();
 
   let errorMessage = null;
 
@@ -76,13 +80,7 @@ const LoginForm = (props) => {
 
 LoginForm.propTypes = {
   authorizationError: PropTypes.number,
-  email: PropTypes.string.isRequired,
-  emailError: PropTypes.bool,
-  password: PropTypes.string.isRequired,
-  onEmailChange: PropTypes.func.isRequired,
-  onPasswordChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  validateEmail: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default LoginForm;

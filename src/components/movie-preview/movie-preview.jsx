@@ -3,14 +3,11 @@ import PropTypes from "prop-types";
 
 const PREVIEW_DELAY_IN_MS = 1000;
 
-const MoviePreview = ({poster, video, videoRef}) => {
-  const videoR = useRef();
+const MoviePreview = ({poster, video}) => {
+  const videoRef = useRef();
   const timeoutId = useRef();
 
   useEffect(() => {
-    if (videoRef) {
-      videoRef(videoR);
-    }
     return () => {
       clearTimeout(timeoutId.current);
     };
@@ -18,20 +15,20 @@ const MoviePreview = ({poster, video, videoRef}) => {
 
   const handleMouseEnter = () => {
     timeoutId.current = setTimeout(() => {
-      videoR.current.play();
+      videoRef.current.play();
     }, PREVIEW_DELAY_IN_MS);
   };
 
   const handleMouseLeave = () => {
     clearTimeout(timeoutId.current);
-    videoR.current.pause();
-    videoR.current.src = ``;
-    videoR.current.src = video;
+    videoRef.current.pause();
+    videoRef.current.src = ``;
+    videoRef.current.src = video;
   };
 
   return (
     <video
-      ref={videoR}
+      ref={videoRef}
       src={video}
       width="280"
       height="175"
@@ -47,8 +44,7 @@ const MoviePreview = ({poster, video, videoRef}) => {
 
 MoviePreview.propTypes = {
   poster: PropTypes.string.isRequired,
-  video: PropTypes.string.isRequired,
-  videoRef: PropTypes.func
+  video: PropTypes.string.isRequired
 };
 
 export default MoviePreview;

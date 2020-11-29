@@ -45,7 +45,7 @@ export const formatDuration = (seconds) => {
 };
 
 export const formatProgressBar = (currentTime, duration) => {
-  return Math.round((currentTime / duration) * 100);
+  return !duration ? 0 : Math.round((currentTime / duration) * 100);
 };
 
 export const isActionSuccess = (action) => {

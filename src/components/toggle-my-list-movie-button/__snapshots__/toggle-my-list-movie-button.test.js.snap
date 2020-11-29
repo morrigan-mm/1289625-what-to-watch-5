@@ -4,6 +4,7 @@ exports[`ToggleMyListMovieButton With disabled prop 1`] = `
 <button
   className="btn btn--list movie-card__button"
   disabled={true}
+  onClick={[Function]}
   type="button"
 >
   <svg
@@ -24,6 +25,7 @@ exports[`ToggleMyListMovieButton With disabled prop 1`] = `
 exports[`ToggleMyListMovieButton With isFavorite prop 1`] = `
 <button
   className="btn btn--list movie-card__button"
+  onClick={[Function]}
   type="button"
 >
   <svg
@@ -44,6 +46,7 @@ exports[`ToggleMyListMovieButton With isFavorite prop 1`] = `
 exports[`ToggleMyListMovieButton With no props 1`] = `
 <button
   className="btn btn--list movie-card__button"
+  onClick={[Function]}
   type="button"
 >
   <svg

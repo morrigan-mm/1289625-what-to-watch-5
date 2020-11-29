@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React, {Fragment} from "react";
 import PropTypes from "prop-types";
+import useReviewState from "../../hooks/use-review-state";
 import {getErrorMessage} from "../../utils";
 
 const MIN_REVIEW_LENGTH = 50;
@@ -18,7 +19,8 @@ const renderErrorMessage = (errorCode) => (
 );
 
 const ReviewForm = (props) => {
-  const {disabled, rate, text, onRateChange, onTextChange, onSubmit, addReviewError} = props;
+  const {disabled, onSubmit, addReviewError} = props;
+  const {rate, text, onRateChange, onTextChange} = useReviewState();
 
   const submitDisabled = disabled || !rate || text.length < MIN_REVIEW_LENGTH || text.length > MAX_REVIEW_LENGTH;
 
@@ -28,7 +30,9 @@ const ReviewForm = (props) => {
       className="add-review__form"
       onSubmit={(evt) => {
         evt.preventDefault();
-        onSubmit({rate, text});
+        if (!submitDisabled) {
+          onSubmit({rate, text});
+        }
       }}
     >
       {addReviewError ? renderErrorMessage(addReviewError) : null}
@@ -88,11 +92,7 @@ const ReviewForm = (props) => {
 
 ReviewForm.propTypes = {
   disabled: PropTypes.bool,
-  rate: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
   addReviewError: PropTypes.number,
-  onRateChange: PropTypes.func.isRequired,
-  onTextChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 };
 

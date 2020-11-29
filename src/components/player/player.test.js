@@ -7,28 +7,14 @@ import {Player} from "./player";
 const requiredProps = {
   film,
   filmId: film.id,
-  duration: 600,
-  onExitButtonClick: noop,
-  onButtonClick: noop,
-  onDurationChange: noop,
-  onTimeUpdate: noop
+  onExitButtonClick: noop
 };
 
 describe(`Player`, () => {
   it(`Should render correctly`, () => {
     const tree = renderer
       .create(
-          <Player {...requiredProps} currentTime={0} isPlaying={false} />
-      )
-      .toJSON();
-
-    expect(tree).toMatchSnapshot();
-  });
-
-  it(`Should render correctly when 5 minutes play`, () => {
-    const tree = renderer
-      .create(
-          <Player {...requiredProps} currentTime={300} isPlaying={true} />
+          <Player {...requiredProps} />
       )
       .toJSON();
 

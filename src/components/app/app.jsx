@@ -2,7 +2,6 @@ import React from "react";
 import {Switch, Route, Redirect, Router} from "react-router-dom";
 import {PageMovieTab, AppRoute} from "../../constants";
 import history from "../../history";
-import withPlayingState from "../../hocs/with-playing-state/with-playing-state";
 import PageAddReview from "../page-add-review/page-add-review";
 import PageLogin from "../page-login/page-login";
 import PageMain from "../page-main/page-main";
@@ -11,8 +10,6 @@ import PageMovie from "../page-movie/page-movie";
 import PageMyList from "../page-my-list/page-my-list";
 import Player from "../player/player";
 import PrivateRoute from "../private-route/private-route";
-
-const WithPlayingStatePlayer = withPlayingState(Player);
 
 const handlePlayButtonClick = (id) => {
   history.push(AppRoute.PLAYER.url({id}));
@@ -44,7 +41,6 @@ const App = () => {
             />
           )}
         />
-        {/* TODO */}
         <Redirect exact
           from={AppRoute.FILM.pattern}
           to={AppRoute.FILM_TAB.url({tab: PageMovieTab.OVERVIEW})}
@@ -62,7 +58,7 @@ const App = () => {
         <Route exact
           path={AppRoute.PLAYER.pattern}
           render={({match}) => (
-            <WithPlayingStatePlayer
+            <Player
               filmId={Number(match.params.id)}
               onExitButtonClick={handleExitButtonClick}
             />

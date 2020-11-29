@@ -8,13 +8,10 @@ import {isActionSuccess} from "../../utils";
 import history from "../../history";
 import {filmShape, headerUserType} from "../../prop-types";
 import ReviewForm from "../review-form/review-form";
-import withReviewState from "../../hocs/with-review-state/with-review-state";
 import Breadcrumbs from "../breadcrumbs/breadcrumbs";
 import Header from "../header/header";
 import HeaderUserBlock from "../header-user-block/header-user-block";
 import {AppRoute} from "../../constants";
-
-const WithReviewStateForm = withReviewState(ReviewForm);
 
 const PageAddReview = (props) => {
   const {film, headerUser, onReviewSubmit, isLoading, addReviewError, onUnmount} = props;
@@ -56,7 +53,7 @@ const PageAddReview = (props) => {
       </div>
 
       <div className="add-review">
-        <WithReviewStateForm disabled={isLoading} addReviewError={addReviewError} onSubmit={onReviewSubmit} />
+        <ReviewForm disabled={isLoading} addReviewError={addReviewError} onSubmit={onReviewSubmit} />
       </div>
 
     </section>

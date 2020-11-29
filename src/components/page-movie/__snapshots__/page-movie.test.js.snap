@@ -200,7 +200,7 @@ Array [
             <div
               className="movie-rating__score"
             >
-              4.0
+              4,0
             </div>
             <p
               className="movie-rating__meta"
@@ -596,7 +596,7 @@ Array [
             <div
               className="movie-rating__score"
             >
-              4.0
+              4,0
             </div>
             <p
               className="movie-rating__meta"
@@ -1235,7 +1235,7 @@ Array [
             <div
               className="movie-rating__score"
             >
-              4.0
+              4,0
             </div>
             <p
               className="movie-rating__meta"
@@ -1539,7 +1539,7 @@ Array [
             <div
               className="movie-rating__score"
             >
-              4.0
+              4,0
             </div>
             <p
               className="movie-rating__meta"
@@ -1840,7 +1840,7 @@ Array [
             <div
               className="movie-rating__score"
             >
-              4.0
+              4,0
             </div>
             <p
               className="movie-rating__meta"
@@ -2202,7 +2202,7 @@ Array [
             <div
               className="movie-rating__score"
             >
-              4.0
+              4,0
             </div>
             <p
               className="movie-rating__meta"
